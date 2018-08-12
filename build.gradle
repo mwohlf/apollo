@@ -1,0 +1,21 @@
+
+// just the base plugin with the basics to keep things simple,
+// see: http://mrhaki.blogspot.de/2010/10/gradle-goodness-base-plugin-usage.html
+plugins {
+    id 'base'
+}
+
+// reading common libs and versions
+apply from: "${projectDir}/metadata/versions.gradle"
+
+wrapper {
+    gradleVersion = '4.8'
+}
+
+task MrProper {
+    dependsOn clean
+    doLast {
+        // contains a file lock, can't be deleted when gradle is running
+        // delete "./.gradle"
+    }
+}

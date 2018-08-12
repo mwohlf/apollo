@@ -1,0 +1,16 @@
+rootProject.name = 'apollo'
+
+// submodules
+include 'frontend'
+include 'backend'
+
+// check for proper modules configs
+rootProject.children.each {project ->
+
+    project.projectDir = new File(settingsDir, project.name)
+    assert project.projectDir.isDirectory(), "Directory missing for sub project '" + project + "' you might want to create the directory..."
+
+    project.buildFileName = "${project.name}.gradle"
+    assert project.buildFile.isFile(), "No gradle config file found for sub project " + project + ", expected filename is '" + project.buildFileName + "', you might want to create the file..."
+
+}

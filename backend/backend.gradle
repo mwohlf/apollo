@@ -1,0 +1,25 @@
+
+// see: https://www.baeldung.com/spring-boot-gradle-plugin
+plugins {
+    id 'io.franzbecker.gradle-lombok' version '1.10'
+    id "java"
+    id "eclipse"
+    id "idea"
+    id 'org.springframework.boot' version '2.0.4.RELEASE'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'com.h2database:h2'
+}
+
+springBoot {
+    mainClassName = 'net.wohlfart.Application'
+}

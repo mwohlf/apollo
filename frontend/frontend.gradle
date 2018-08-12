@@ -1,0 +1,84 @@
+import io.swagger.codegen.DefaultGenerator
+
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+    }
+    dependencies {
+        // see: https://github.com/thebignet/swagger-codegen-gradle-plugin-example
+        classpath("io.swagger:swagger-codegen:2.3.1-SNAPSHOT") // version is also configured in dependencies.gradle
+    }
+}
+
+
+
+plugins {
+    id "com.moowork.node" version "1.2.0"
+}
+
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    jcenter()
+}
+
+node {
+    version = "${versions.node}"
+    npmVersion = "${versions.npm}"
+    yarnVersion = "${versions.yarn}"
+    download = true
+    workDir = file("${projectDir}/.gradle/node")
+    nodeModulesDir = file("${project.projectDir}")
+}
+
+
+task yarnRunBuild(type: YarnTask) {
+    group "Frontend Generation"
+    description "compile the frontend with yarn"
+
+    dependsOn yarn_install
+    args = ['run', 'build']   // compiles into build/dist. the output dir in package.json for "ng build"
+}
+
+// gradle webjar creates
+task webjar(type: Jar) {
+    group "Artifact Generation"
+    description "assemble the maven artifact"
+
+    dependsOn yarnRunBuild
+    // default is to build into /dist however we want it gradle style ki side the build directory and changed the path in angular.json
+    from(fileTree("build/dist")) {
+        into "META-INF/resources"
+    }
+}
+build.dependsOn(webjar)
+build.dependsOn(publishToMavenLocal)
+
+publishing {
+    publications {
+        // publish the frontend project as webjar to maven local
+        WebJar(MavenPublication) {
+            groupId 'net.wohlfart.gemini'
+            artifactId 'frontend'
+            version '0.0.1-SNAPSHOT'
+            // the content of the webjar:
+            artifact webjar
+            // from webjar
+        }
+    }
+}
+
+task MrProper {
+    dependsOn clean // removed build/
+    doLast {
+        delete "${projectDir}/src/generated"
+        delete "${projectDir}/dist"  // moved to build/dist in angular.json
+        delete "${projectDir}/.gradle"
+        delete "${projectDir}/node_modules"
+    }
+}
