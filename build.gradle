@@ -9,7 +9,7 @@ plugins {
 apply from: "${projectDir}/metadata/versions.gradle"
 
 wrapper {
-    gradleVersion = '4.8'
+    gradleVersion = '4.9'
 }
 
 task MrProper {

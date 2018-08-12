@@ -15,11 +15,24 @@ repositories {
     mavenCentral()
 }
 
+// make sure the frontend is compiled and in mavenLocal
+compileJava.dependsOn(':frontend:publishWebJarPublicationToMavenLocal')
+
 dependencies {
+    compile('net.wohlfart.apollo:frontend:0.0.1-SNAPSHOT')        // the frontend webjar
+
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'com.h2database:h2'
 }
 
 springBoot {
     mainClassName = 'net.wohlfart.Application'
+}
+
+task MrProper {
+    dependsOn clean // removed build/
+    doLast {
+        delete "${projectDir}/out"  // from idea
+        delete "${projectDir}/.gradle"
+    }
 }

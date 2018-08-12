@@ -63,7 +63,7 @@ publishing {
     publications {
         // publish the frontend project as webjar to maven local
         WebJar(MavenPublication) {
-            groupId 'net.wohlfart.gemini'
+            groupId 'net.wohlfart.apollo'
             artifactId 'frontend'
             version '0.0.1-SNAPSHOT'
             // the content of the webjar:
