@@ -10,8 +10,10 @@ plugins {
 
 apply plugin: 'io.spring.dependency-management'
 
+version '0.0.1-SNAPSHOT'
+
 repositories {
-    mavenLocal()
+    mavenLocal()  // to pick up the frotnend webjar
     mavenCentral()
 }
 

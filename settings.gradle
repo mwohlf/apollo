@@ -3,6 +3,8 @@ rootProject.name = 'apollo'
 // submodules
 include 'frontend'
 include 'backend'
+include 'docker'
+
 
 // check for proper modules configs
 rootProject.children.each {project ->
