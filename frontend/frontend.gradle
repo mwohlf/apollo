@@ -8,7 +8,7 @@ buildscript {
     }
     dependencies {
         // see: https://github.com/thebignet/swagger-codegen-gradle-plugin-example
-        classpath("io.swagger:swagger-codegen:2.3.1-SNAPSHOT") // version is also configured in dependencies.gradle
+        classpath("io.swagger:swagger-codegen:${versions.swagger_codegen}") // version is also configured in dependencies.gradle
     }
 }
 

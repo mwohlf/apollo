@@ -1,6 +1,16 @@
+
+// centralized location for all versions, thez are imported intot he build and tasks script
+
 ext.versions = [
-        node             :  '10.3.0',
-        npm              :  '5.7.1', // not used
+        node             :  '10.3.0',   // this should match the version on the bulid host
+        npm              :  '5.7.1',    // not used
         yarn             :  '1.7.0',
+
+
+        swagger_codegen  : '2.3.1-SNAPSHOT',
+        keycloak         : '4.3.0.Final',
+        resteasy         : '3.6.1.Final',
+        spring_boot         : '3.6.1.Final',
+
 
 ]

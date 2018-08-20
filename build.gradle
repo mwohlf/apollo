@@ -5,8 +5,16 @@ plugins {
     id 'base'
 }
 
-// reading common libs and versions
+// reading versions for tasks
 apply from: "${projectDir}/metadata/versions.gradle"
+
+// reading versions for the build dependencies
+subprojects {
+    buildscript {
+        apply from: "${rootProject.projectDir}/metadata/versions.gradle"
+    }
+}
+
 
 wrapper {
     gradleVersion = '4.9'

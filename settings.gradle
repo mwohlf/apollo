@@ -3,6 +3,7 @@ rootProject.name = 'apollo'
 // submodules
 include 'frontend'
 include 'backend'
+include 'console'
 include 'docker'
 
 
