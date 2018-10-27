@@ -25,5 +25,4 @@ spring:
 
 logging:
   level:
-    root: ERROR
-    org.springframework.web: DEBUG
+    root: info

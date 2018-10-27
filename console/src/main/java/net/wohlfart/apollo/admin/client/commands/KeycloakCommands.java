@@ -1,8 +1,12 @@
-package net.wohlfart.apollo.admin.client;
+package net.wohlfart.apollo.admin.client.commands;
 
+import net.wohlfart.apollo.admin.client.AbstractKeycloakCommands;
+import net.wohlfart.apollo.admin.client.ConnectionUpdatedEvent;
+import net.wohlfart.apollo.admin.client.ConsoleException;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
@@ -11,24 +15,11 @@ import javax.ws.rs.NotAuthorizedException;
 
 
 @ShellComponent
-public class SetupCommands {
+public class KeycloakCommands extends AbstractKeycloakCommands {
 
-
-    private Keycloak kc;
-
-    private void initialize() {
-        kc = KeycloakBuilder.builder()
-            .serverUrl("http://your.keycloak.domain/auth")
-            .realm("master")
-            .username("admin")
-            .password("secret")
-            .clientId("admin-cli")
-            .resteasyClient(
-                new ResteasyClientBuilder()
-                    .connectionPoolSize(10).build()
-            ).build();
+    public KeycloakCommands(ApplicationEventPublisher applicationEventPublisher) {
+        super(applicationEventPublisher);
     }
-
 
     @ShellMethod("Initializing Keycloak connection.")
     public String connect(
@@ -40,11 +31,10 @@ public class SetupCommands {
         @ShellOption(defaultValue = "admin-cli") String clientId
     ) {
         String serverUrl = "http://" + hostname + ":" + port + "/auth";
-        Keycloak keycloak = ContextHolder.CONTEXT.keycloak;
-        if (keycloak != null && !keycloak.isClosed()) {
-            throw new ConsoleException("client is already connected and not closed");
+        if (isConnected()) {
+            throw new ConsoleException("client is already connected.");
         }
-        keycloak =  ContextHolder.CONTEXT.keycloak = KeycloakBuilder.builder()
+        Keycloak keycloak =  KeycloakBuilder.builder()
             .serverUrl(serverUrl)
             .realm(realm)
             .username(username)
@@ -54,6 +44,7 @@ public class SetupCommands {
                 new ResteasyClientBuilder()
                     .connectionPoolSize(10).build()
             ).build();
+        applicationEventPublisher.publishEvent(new ConnectionUpdatedEvent(this, keycloak));
         try {
             String version = keycloak.serverInfo().getInfo().getSystemInfo().getVersion();
             return "connected to Keycloak, version: " + version;
@@ -64,16 +55,8 @@ public class SetupCommands {
 
     @ShellMethod("Initializing Keycloak connection.")
     public String disconnect() {
-        Keycloak keycloak = ContextHolder.CONTEXT.keycloak;
-
-        if (keycloak == null) {
-            throw new ConsoleException("client is not connected");
-        }
-        if (keycloak.isClosed()) {
-            throw new ConsoleException("client is already closed");
-        }
-        keycloak.close();
-        ContextHolder.CONTEXT.keycloak = null;
+        checkConnection();
+        applicationEventPublisher.publishEvent(new ConnectionUpdatedEvent(this, null));
         return "done";
     }
 

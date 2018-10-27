@@ -10,9 +10,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomPromptProvider implements PromptProvider {
 
+    private Keycloak keycloak;
+
     @Override
     public AttributedString getPrompt() {
-        Keycloak keycloak = ContextHolder.CONTEXT.keycloak;
         if (keycloak != null) {
             return new AttributedString("keycloak> ",
                 AttributedStyle.DEFAULT.foreground(AttributedStyle.YELLOW));
@@ -24,8 +25,8 @@ public class CustomPromptProvider implements PromptProvider {
     }
 
     @EventListener
-    public void handle(ConnectionUpdatedEvent event) {
-        // this.connection = event.getConnectionDetails();
+    public void handle(ConnectionUpdatedEvent connectionUpdatedEvent) {
+        this.keycloak = connectionUpdatedEvent.getKeycloak();
     }
 
 }
