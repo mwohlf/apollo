@@ -2,8 +2,16 @@
 
 run gradle bootRun
 
+ng generate c footer
+
+ng generate c header
+
+ng generate c pages/page1 -d
 
 # Frontend
+
+see:
+https://github.com/jeroenouw/AngularMaterialFirebase/blob/master/docs/FEATURES.md
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.7.
 
