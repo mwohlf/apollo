@@ -33,6 +33,8 @@ dependencies {
     // implementation      'org.keycloak:keycloak-spring-boot-starter'
     // runtimeOnly         'com.h2database:h2'
     compileOnly         "org.projectlombok:lombok:${versions.lombok}"
+    annotationProcessor "org.projectlombok:lombok:${versions.lombok}"
+
     testImplementation  'org.springframework.boot:spring-boot-starter-test'
     testImplementation  'io.projectreactor:reactor-test'
 }

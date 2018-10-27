@@ -1,9 +1,12 @@
 rootProject.name = 'apollo'
 
+// see: https://docs.gradle.org/4.10.2/userguide/publishing_maven.html#publishing_maven:deferred_configuration
+enableFeaturePreview('STABLE_PUBLISHING')
+
 // submodules
 include 'frontend'
 include 'backend'
-include 'console'
+// include 'console'
 include 'docker'
 
 
