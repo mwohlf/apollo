@@ -8,6 +8,11 @@ ng generate c header
 
 ng generate c pages/page1 -d
 
+
+startup docker:
+[michael@snoopy docker]$ gradle composeUp
+
+
 # Frontend
 
 see:
