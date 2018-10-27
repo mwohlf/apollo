@@ -25,6 +25,7 @@ import {FooterComponent} from './footer/footer.component';
 import {Page1Component} from './pages/page1/page1.component';
 import {Page2Component} from './pages/page2/page2.component';
 import {Page3Component} from './pages/page3/page3.component';
+import {KeycloakService} from "./services/keycloak.service";
 
 @NgModule({
   declarations: [
@@ -46,9 +47,11 @@ import {Page3Component} from './pages/page3/page3.component';
     ReactiveFormsModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [
+      KeycloakService,
+  ],
   schemas: [
-    CUSTOM_ELEMENTS_SCHEMA
+    CUSTOM_ELEMENTS_SCHEMA,
   ],
   bootstrap: [AppComponent]
 })

@@ -25,6 +25,7 @@
     "@angular/router": "^7.0.1",
     "core-js": "^2.5.7",
     "hammerjs": "^2.0.8",
+    "keycloak-js": "^4.5.0",
     "npm-check-updates": "^2.14.2",
     "rxjs": "^6.3.3",
     "rxjs-compat": "^6.3.3",
