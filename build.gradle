@@ -7,6 +7,12 @@ plugins {
     id "eclipse"
 }
 
+ext {
+    // file fetched from the swagger endpoint
+    apiDefinitionPath = "${projectDir}/metadata/api-docs.json"
+}
+
+
 // reading versions for tasks
 apply from: "${projectDir}/metadata/versions.gradle"
 

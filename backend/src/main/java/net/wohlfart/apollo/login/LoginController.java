@@ -12,6 +12,8 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.validation.constraints.NotNull;
+
 
 @Api
 @Controller
@@ -38,8 +40,10 @@ public class LoginController {
     @Data
     public static class Authentication {
 
+        @NotNull
         String useranme;
 
+        @NotNull
         String password;
 
     }

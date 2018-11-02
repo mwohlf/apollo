@@ -34,12 +34,33 @@ node {
     nodeModulesDir = file("${project.projectDir}")
 }
 
+task generateApi {
+    group "API Generation"
+    description "Create angular API from the swagger definition in ${rootProject.ext.apiDefinitionPath}"
+
+    inputs.files(file("${rootProject.ext.apiDefinitionPath}"))
+    outputs.dir(file("${projectDir}/src/generated"))
+
+    doLast {
+        //noinspection UnnecessaryQualifiedReference
+        def config = new io.swagger.codegen.config.CodegenConfigurator()
+        config.setInputSpec("file:///${rootProject.ext.apiDefinitionPath}")
+        config.setOutputDir("${projectDir}/src/generated")
+        config.setLang('typescript-angular')
+        config.setVerbose(false)
+        config.setAdditionalProperties([
+            'basePath': 'http://localhost:8080'
+        ])
+        new DefaultGenerator().opts(config.toClientOptInput()).generate()
+    }
+}
 
 task yarnRunBuild(type: YarnTask) {
     group "Frontend Generation"
     description "compile the frontend with yarn"
 
     dependsOn yarn_install
+    dependsOn generateApi
     args = ['run', 'build']   // compiles into build/dist. the output dir in package.json for "ng build"
 }
 
