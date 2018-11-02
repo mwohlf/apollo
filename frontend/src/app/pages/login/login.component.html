@@ -1,3 +1,38 @@
-<p>
-  login works!
-</p>
+
+
+
+<!-- Template Body starts -->
+<div class="login-box-body">
+
+  <!-- Markup for getting Username starts -->
+  <mat-grid-list cols="9" rowHeight="75px">
+    <mat-grid-tile [rowspan]="1" class="login-icon">
+      <mat-icon>lock</mat-icon>
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="7">
+      <mat-input-container class="justifier">
+        <input mdInput placeholder="Username" text="text">
+      </mat-input-container>
+    </mat-grid-tile>
+  </mat-grid-list>
+  <!-- Markup for getting Username ends -->
+
+  <!-- Markup for getting Password starts -->
+  <mat-grid-list cols="9" rowHeight="100px">
+    <mat-grid-tile [rowspan]="1"  class="login-icon">
+      <mat-icon>remove_red_eye</mat-icon>
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="7">
+      <mat-input-container class="justifier">
+        <input mdInput placeholder="Password" text="password">
+      </mat-input-container>
+    </mat-grid-tile>
+  </mat-grid-list>
+  <!-- Markup for getting Password ends -->
+
+  <button md-raised-button class="login-button">
+    <mat-icon>input</mat-icon> Login
+  </button>
+
+</div>
+<!-- Template Body ends -->

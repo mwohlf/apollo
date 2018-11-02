@@ -26,7 +26,8 @@ keycloak:
   admin:
     realm: master
   client:
-    realmId: apollo
+    realm-id: apollo
+    client-id: apollo-backend
 
 logging:
   level:

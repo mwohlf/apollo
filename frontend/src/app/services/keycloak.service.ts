@@ -17,11 +17,12 @@ export class KeycloakService {
         return new Promise((resolve, reject) => {
             const config = {
                 'url': 'http://localhost:8081/auth',
-                'realm': 'master',
-                'clientId': 'client-cli'
+                'realm': 'apollo',
+                'clientId': 'apollo-backend'
             };
             this.keycloakAuth = new Keycloak(config);
-            this.keycloakAuth.init({ onLoad: 'login-required' })
+
+            this.keycloakAuth.init() // ({ onLoad: 'login-required' })
                 .success(() => {
                     resolve();
                 })
