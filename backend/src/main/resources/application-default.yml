@@ -22,6 +22,11 @@ spring:
       ddlAuto: create-drop
     show-sql: false
 
+keycloak:
+  admin:
+    realm: master
+  client:
+    realmId: apollo
 
 logging:
   level:
