@@ -10,13 +10,14 @@ import reactor.core.publisher.Flux;
 import java.time.Duration;
 import java.time.LocalTime;
 
+import static net.wohlfart.apollo.config.WebSecurityConfig.API;
 
 
 @Api
 @Controller
 public class EventController {
 
-    public static final String STREAM_SSE_ENDPOINT = "/stream-sse";
+    public static final String STREAM_SSE_ENDPOINT = API + "/stream-sse";
 
 
     @GetMapping(path=EventController.STREAM_SSE_ENDPOINT, produces=MediaType.TEXT_EVENT_STREAM_VALUE)

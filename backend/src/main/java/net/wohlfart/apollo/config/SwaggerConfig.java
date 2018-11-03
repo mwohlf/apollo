@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static net.wohlfart.apollo.config.WebSecurityConfig.API;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 
@@ -53,7 +54,7 @@ public class SwaggerConfig {
             .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
             .paths(PathSelectors.any())
             .build()
-            .pathMapping("/")
+            // .pathMapping("/")
             // security scheme
             .securitySchemes(securitySchemes())
             .produces(Sets.newHashSet(APPLICATION_JSON_VALUE))

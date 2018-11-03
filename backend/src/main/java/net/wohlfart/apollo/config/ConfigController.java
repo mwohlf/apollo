@@ -1,7 +1,6 @@
 package net.wohlfart.apollo.config;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiParam;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.server.ServerWebExchange;
+
+import static net.wohlfart.apollo.config.WebSecurityConfig.API;
 
 
 @Api
@@ -18,7 +18,7 @@ import org.springframework.web.server.ServerWebExchange;
 @RequiredArgsConstructor
 public class ConfigController {
 
-    public static final String CONFIG_ENDPOINT = "/config";
+    public static final String CONFIG_ENDPOINT = API + "/config";
 
     final KeycloakClientProperties keycloakClientProperties;
 
