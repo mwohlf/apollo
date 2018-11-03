@@ -1,4 +1,4 @@
-package net.wohlfart.apollo.configuration;
+package net.wohlfart.apollo.config;
 
 
 import lombok.Data;

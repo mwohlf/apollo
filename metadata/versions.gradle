@@ -2,14 +2,19 @@
 // centralized location for all versions, thez are imported intot he build and tasks script
 
 ext.versions = [
+
+    apollo              :  "0.0.1-SNAPSHOT",
+
     node                :  '11.0.0',   // this should match the version on the build host
     npm                 :  '6.4.1',    // not used
     yarn                :  '1.10.1',
     lombok              :  '1.18.2',
+    springfox           :  '3.0.0-SNAPSHOT',
 
     swagger_codegen     :  '2.3.1-SNAPSHOT',
     keycloak            :  '4.5.0.Final',
     resteasy            :  '3.6.1.Final',
-    spring_boot         :  '2.0.6.RELEASE',
+    spring_boot         :  '2.0.6.RELEASE',    // used in the buildscript
+    guava               :  '27.0-jre',
 
 ]

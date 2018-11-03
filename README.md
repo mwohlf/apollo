@@ -11,6 +11,9 @@ ng generate c pages/login
 ng generate c pages/page1 -d
 
 
+event source:
+https://thepracticaldeveloper.com/2017/11/04/full-reactive-stack-ii-the-angularjs-client/
+
 startup docker:
 [michael@snoopy docker]$ gradle composeUp
 
