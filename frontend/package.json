@@ -8,7 +8,6 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-
     "create-apidocs": "nwget http://localhost:8080/v2/api-docs -O ../metadata/api-docs.json",
     "postcreate-apidocs": "js-beautify ../metadata/api-docs.json -o ../metadata/api-docs.json"
   },
@@ -29,6 +28,7 @@
     "core-js": "^2.5.7",
     "hammerjs": "^2.0.8",
     "keycloak-js": "^4.5.0",
+    "material-design-icons": "^3.0.1",
     "npm-check-updates": "^2.14.2",
     "rxjs": "^6.3.3",
     "rxjs-compat": "^6.3.3",

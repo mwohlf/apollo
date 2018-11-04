@@ -27,8 +27,9 @@ import {Page2Component} from './pages/page2/page2.component';
 import {Page3Component} from './pages/page3/page3.component';
 import {KeycloakService} from "./services/keycloak.service";
 import {LoginComponent} from './pages/login/login.component';
-import {ApplicationPropertiesProvider, initConfig} from "./config/app-config.provicer";
+import {PropertiesProvider, initProperties} from "./config/properties.provider";
 import {ApiModule, BASE_PATH} from "../generated";
+import {IconsProvider, initIcons} from "./config/icons.provider";
 
 @NgModule({
     declarations: [
@@ -45,6 +46,7 @@ import {ApiModule, BASE_PATH} from "../generated";
         AppRoutingModule,
         BrowserModule,
         BrowserAnimationsModule,
+        MatIconModule,
         MatButtonModule, MatCheckboxModule, MatMenuModule, MatInputModule, MatSnackBarModule,
         MatToolbarModule, MatDialogModule, MatSidenavModule, MatNativeDateModule,
         MatCardModule, MatTabsModule, MatIconModule,
@@ -54,10 +56,12 @@ import {ApiModule, BASE_PATH} from "../generated";
     ],
     providers: [
         KeycloakService,
-        ApplicationPropertiesProvider,
+        PropertiesProvider,
+        IconsProvider,
 
-        { provide: APP_INITIALIZER, useFactory: initConfig, deps: [ApplicationPropertiesProvider], multi: true },
-        { provide: BASE_PATH, useValue: ApplicationPropertiesProvider.BASE_PATH }
+        { provide: APP_INITIALIZER, useFactory: initProperties, deps: [PropertiesProvider], multi: true },
+        { provide: APP_INITIALIZER, useFactory: initIcons, deps: [IconsProvider], multi: true },
+        { provide: BASE_PATH, useValue: PropertiesProvider.BASE_PATH }
     ],
     schemas: [
         CUSTOM_ELEMENTS_SCHEMA,

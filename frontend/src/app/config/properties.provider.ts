@@ -2,13 +2,13 @@ import {ApplicationProperties, ConfigControllerService} from "../../generated";
 import {Injectable} from "@angular/core";
 
 
-export function initConfig(applicationPropertiesProvider: ApplicationPropertiesProvider): () => Promise<boolean> {
-    return () => applicationPropertiesProvider.load();
+export function initProperties(propertiesProvider: PropertiesProvider): () => Promise<boolean> {
+    return () => propertiesProvider.init();
 }
 
 
 @Injectable()
-export class ApplicationPropertiesProvider {
+export class PropertiesProvider {
 
     public static BASE_PATH: string  = ' ';
 
@@ -16,24 +16,24 @@ export class ApplicationPropertiesProvider {
 
 
     constructor(private configControllerService: ConfigControllerService) {
-        console.info("<ApplicationPropertiesProvider>");
+        console.info("<PropertiesProvider>");
     }
 
     public getApplicationProperties(): ApplicationProperties {
         return this.applicationProperties;
     }
 
-    public load(): Promise<boolean> {
-        console.info("<load> init...");
+    public init(): Promise<boolean> {
+        console.info("<init> start...");
         return new Promise<boolean>((resolve) => {
             this.configControllerService.configUsingGET().subscribe(
                 (applicationProperties: ApplicationProperties) => {
                     this.applicationProperties = applicationProperties;
-                    console.info("<load> success ", this.applicationProperties);
+                    console.info("<init> ...success ", this.applicationProperties);
                     resolve(true);
                 },
                 (fail: any) => {
-                    console.info("<load> fail ", this.applicationProperties);
+                    console.info("<init> ...fail ", this.applicationProperties);
                     resolve(false);
                 });
         });

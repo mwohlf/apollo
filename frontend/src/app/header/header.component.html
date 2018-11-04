@@ -1,5 +1,15 @@
-<nav>
-  <a routerLink="/page1" routerLinkActive="active">Page 1</a>
-  <a routerLink="/page2" routerLinkActive="active">Page 2</a>
-  <a routerLink="/page3" routerLinkActive="active">Page 3</a>
-</nav>
+<mat-toolbar role="heading">
+  <span>Apollo</span>
+  <span class="fill-remaining-space"></span>
+  <mat-icon>mood</mat-icon>
+  <mat-icon>core-inline</mat-icon>
+  <mat-icon svgIcon="bike"></mat-icon>
+  <button mat-icon-button [routerLink]="['/page1']">page1</button>
+  <button mat-icon-button [routerLink]="['/page2']">page2</button>
+  <button mat-icon-button [routerLink]="['/page3']">page3</button>
+  <button mat-icon-button [routerLink]="['/login']"><mat-icon>input</mat-icon></button>
+  <button mat-icon-button [routerLink]="['/login']"><mat-icon>bike</mat-icon></button>
+  <button mat-icon-button [routerLink]="['/login']"><mat-icon>bike</mat-icon></button>
+</mat-toolbar>
+
+
