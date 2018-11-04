@@ -1,15 +1,17 @@
 <mat-toolbar role="heading">
+  <button
+    type="button"
+    mat-icon-button
+    (click)="sidenav.open()"
+    title="Open sidenav">
+    <mat-icon>menu</mat-icon>
+  </button>
   <span>Apollo</span>
   <span class="fill-remaining-space"></span>
-  <mat-icon>mood</mat-icon>
-  <mat-icon>core-inline</mat-icon>
-  <mat-icon svgIcon="bike"></mat-icon>
-  <button mat-icon-button [routerLink]="['/page1']">page1</button>
-  <button mat-icon-button [routerLink]="['/page2']">page2</button>
-  <button mat-icon-button [routerLink]="['/page3']">page3</button>
+  <button mat-icon-button [routerLink]="['/page1']"><mat-icon>looks_one</mat-icon></button>
+  <button mat-icon-button [routerLink]="['/page2']"><mat-icon>looks_two</mat-icon></button>
+  <button mat-icon-button [routerLink]="['/page3']"><mat-icon>looks_3</mat-icon></button>
   <button mat-icon-button [routerLink]="['/login']"><mat-icon>input</mat-icon></button>
-  <button mat-icon-button [routerLink]="['/login']"><mat-icon>bike</mat-icon></button>
-  <button mat-icon-button [routerLink]="['/login']"><mat-icon>bike</mat-icon></button>
 </mat-toolbar>
 
 

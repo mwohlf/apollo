@@ -27,7 +27,7 @@ import {Page2Component} from './pages/page2/page2.component';
 import {Page3Component} from './pages/page3/page3.component';
 import {KeycloakService} from "./services/keycloak.service";
 import {LoginComponent} from './pages/login/login.component';
-import {PropertiesProvider, initProperties} from "./config/properties.provider";
+import {initProperties, PropertiesProvider} from "./config/properties.provider";
 import {ApiModule, BASE_PATH} from "../generated";
 import {IconsProvider, initIcons} from "./config/icons.provider";
 
@@ -46,10 +46,19 @@ import {IconsProvider, initIcons} from "./config/icons.provider";
         AppRoutingModule,
         BrowserModule,
         BrowserAnimationsModule,
+        MatButtonModule,
+        MatCheckboxModule,
+        MatMenuModule,
+        MatInputModule,
+        MatSnackBarModule,
+        MatToolbarModule,
+        MatDialogModule,
+        MatSidenavModule,
+        MatNativeDateModule,
+        MatCardModule,
+        MatTabsModule,
         MatIconModule,
-        MatButtonModule, MatCheckboxModule, MatMenuModule, MatInputModule, MatSnackBarModule,
-        MatToolbarModule, MatDialogModule, MatSidenavModule, MatNativeDateModule,
-        MatCardModule, MatTabsModule, MatIconModule,
+        MatInputModule,
         FormsModule,
         ReactiveFormsModule,
         HttpClientModule,
