@@ -20,26 +20,30 @@ import {HttpClientModule} from '@angular/common/http';
 // Main
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from "./app.routing";
-import {HeaderComponent} from './header/header.component';
+import {HeadingComponent} from './heading/heading.component';
 import {FooterComponent} from './footer/footer.component';
 import {Page1Component} from './pages/page1/page1.component';
 import {Page2Component} from './pages/page2/page2.component';
 import {Page3Component} from './pages/page3/page3.component';
 import {KeycloakService} from "./services/keycloak.service";
 import {LoginComponent} from './pages/login/login.component';
-import {initProperties, PropertiesProvider} from "./config/properties.provider";
+import {FlexLayoutModule} from '@angular/flex-layout';
+
 import {ApiModule, BASE_PATH} from "../generated";
-import {IconsProvider, initIcons} from "./config/icons.provider";
+import {initProperties, PropertiesProvider} from "./config/properties.provider";
+import {initIcons, IconsProvider} from "./config/icons.provider";
+import { SidenavComponent } from './sidenav/sidenav.component';
 
 @NgModule({
     declarations: [
         AppComponent,
-        HeaderComponent,
+        HeadingComponent,
         FooterComponent,
         Page1Component,
         Page2Component,
         Page3Component,
         LoginComponent,
+        SidenavComponent,
     ],
     imports: [
         ApiModule,
@@ -62,6 +66,7 @@ import {IconsProvider, initIcons} from "./config/icons.provider";
         FormsModule,
         ReactiveFormsModule,
         HttpClientModule,
+        FlexLayoutModule,
     ],
     providers: [
         KeycloakService,

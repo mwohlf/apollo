@@ -1,4 +1,5 @@
-<mat-sidenav-container class="all-wrap" fullscreen>
+<mat-sidenav-container style="min-height: 100vh;">
+
   <mat-sidenav #sidenav>
     <mat-list>
       <mat-list-item [routerLink]="['/page1']"> page1</mat-list-item>
@@ -6,7 +7,7 @@
     </mat-list>
   </mat-sidenav>
 
-  <div class="page-wrap">
+  <div fxLayout="column" style="min-height: 100vh;" fxLayoutGap="32px">
     <app-header [sidenav]="sidenav"></app-header>
     <main class="content">
       <router-outlet></router-outlet>
@@ -15,3 +16,6 @@
   </div>
 </mat-sidenav-container>
 
+<!--
+https://blog.angularindepth.com/angular-flex-layout-flexbox-and-grid-layout-for-angular-component-6e7c24457b63
+-->

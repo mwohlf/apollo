@@ -33,8 +33,11 @@ export class PropertiesProvider {
                     resolve(true);
                 },
                 (fail: any) => {
-                    console.info("<init> ...fail ", this.applicationProperties);
-                    resolve(false);
+                    console.info("<init> ...fail using backup config location", this.applicationProperties);
+                    this.applicationProperties = {
+                        streamSse: "/api/stream-sse"
+                    };
+                    resolve(true);
                 });
         });
     }
