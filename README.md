@@ -17,6 +17,8 @@ https://thepracticaldeveloper.com/2017/11/04/full-reactive-stack-ii-the-angularj
 startup docker:
 [michael@snoopy docker]$ gradle composeUp
 
+see: https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-gradle-plugin
+
 
 # Frontend
 
