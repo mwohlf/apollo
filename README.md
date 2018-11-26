@@ -1,3 +1,10 @@
+# Quickref
+
+
+gradle clean build
+
+
+
 # Backend
 
 run gradle bootRun

@@ -82,14 +82,14 @@
                     "description": "authentication",
                     "required": true,
                     "schema": {
-                        "$ref": "#/definitions/Authentication"
+                        "$ref": "#/definitions/UsernamePasswordCredential"
                     }
                 }],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/MonoOfTokenCredential"
+                            "$ref": "#/definitions/MonoOfBearerTokenCredential"
                         }
                     },
                     "201": {
@@ -129,17 +129,14 @@
             },
             "title": "ApplicationProperties"
         },
-        "Authentication": {
+        "BearerTokenCredential": {
             "type": "object",
             "properties": {
-                "password": {
-                    "type": "string"
-                },
-                "useranme": {
+                "value": {
                     "type": "string"
                 }
             },
-            "title": "Authentication"
+            "title": "BearerTokenCredential"
         },
         "FluxOfServerSentEventOfstring": {
             "type": "object",
@@ -151,22 +148,25 @@
             },
             "title": "FluxOfServerSentEventOfstring"
         },
-        "MonoOfTokenCredential": {
+        "MonoOfBearerTokenCredential": {
             "type": "object",
-            "title": "MonoOfTokenCredential"
+            "title": "MonoOfBearerTokenCredential"
         },
         "ServerSentEventOfstring": {
             "type": "object",
             "title": "ServerSentEventOfstring"
         },
-        "TokenCredential": {
+        "UsernamePasswordCredential": {
             "type": "object",
             "properties": {
-                "valur": {
+                "password": {
+                    "type": "string"
+                },
+                "useranme": {
                     "type": "string"
                 }
             },
-            "title": "TokenCredential"
+            "title": "UsernamePasswordCredential"
         }
     }
 }

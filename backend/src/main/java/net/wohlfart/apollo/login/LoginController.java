@@ -22,15 +22,15 @@ public class LoginController {
 
 
     @PostMapping(path = LoginController.LOGIN_ENDPOINT, produces = MediaType.APPLICATION_STREAM_JSON_VALUE)
-    public Mono<TokenCredential> authenticate(@ApiIgnore  ServerWebExchange exchange,
-                                              @RequestBody Authentication authentication) {
+    public Mono<BearerTokenCredential> authenticate(@ApiIgnore  ServerWebExchange exchange,
+                                                    @RequestBody UsernamePasswordCredential authentication) {
 
-        return Mono.just(new TokenCredential("token"));
+        return Mono.just(new BearerTokenCredential("token"));
     }
 
 
     @Data
-    public static class Authentication {
+    public static class UsernamePasswordCredential {
 
         @NotNull
         String useranme;
@@ -42,10 +42,10 @@ public class LoginController {
 
     @Data
     @AllArgsConstructor
-    public static class TokenCredential {
+    public static class BearerTokenCredential {
 
         @NotNull
-        String valur;
+        String value;
 
     }
 

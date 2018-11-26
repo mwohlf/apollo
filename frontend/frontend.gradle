@@ -75,6 +75,7 @@ task webjar(type: Jar) {
         into "META-INF/resources"
     }
 }
+build.dependsOn(generateApi)
 build.dependsOn(webjar)
 build.dependsOn(publishToMavenLocal)
 
@@ -91,6 +92,8 @@ publishing {
         }
     }
 }
+
+clean.delete("${projectDir}/src/generated")
 
 task MrProper {
     dependsOn clean // removed build/
