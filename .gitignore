@@ -3,17 +3,13 @@
 .gradle
 .idea
 
-frontend/.gradle
-frontend/build
-frontend/node_modules
-frontend/src/generated
 
 backend/.gradle
 backend/build
 backend/out
 
-console/.gradle
-console/build
-console/out
 
-console/build
+frontend/.gradle
+frontend/build
+frontend/node_modules
+frontend/src/generated

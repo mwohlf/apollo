@@ -74,10 +74,11 @@ springBoot {
     mainClassName = 'net.wohlfart.apollo.Application'
 }
 
+clean.delete("${projectDir}/out")  // from idea
+
 task MrProper {
     dependsOn clean // removed build/
     doLast {
-        delete "${projectDir}/out"  // from idea
         delete "${projectDir}/.gradle"
     }
 }
