@@ -1,4 +1,4 @@
-version: '3.4'
+version: "3.5"
 
 networks:
   user_bridge:
@@ -6,17 +6,23 @@ networks:
       config:
         - subnet: 172.18.0.0/16
 
+volumes:
+  # create a persistent volume for Filebeat and postgres
+  filebeat_data:
+  postgres_data:
+
 #volumes:
 #  postgres_data:
 #    driver: local
 
 services:
 
+
   # see: https://hub.docker.com/_/postgres/
   database:
     hostname: database
     container_name: database
-    image: postgres:10
+    image: postgres:11
     environment:
       POSTGRES_PASSWORD: s3cr37
       POSTGRES_USER: keycloak
@@ -24,11 +30,14 @@ services:
       POSTGRES_DB: keycloak
     ports:
       - 5432:5432
+    depends_on:
+    - filebeat
     # volumes:
     #   - postgres_data:/var/lib/postgresql/data
     networks:
       user_bridge:
-        ipv4_address: 172.18.0.110
+        ipv4_address: 172.18.0.120
+
 
   keycloak:
     hostname: keycloak
@@ -51,11 +60,33 @@ services:
       - 8081:8080 # host:container
     depends_on:
       - database
+      - filebeat
     networks:
       user_bridge:
-        ipv4_address: 172.18.0.120
+        ipv4_address: 172.18.0.125
 # keycload admin console is at: http://localhost:8081/auth/admin/
 # adamin login:  admin/s3cr37
+
+
+  # see: https://medium.com/@bcoste/powerful-logging-with-docker-filebeat-and-elasticsearch-8ad021aecd87
+  filebeat:
+    hostname: filebeat
+    container_name: filebeat
+    build:
+      context: ./filebeat
+    networks:
+      user_bridge:
+        ipv4_address: 172.18.0.135
+    volumes:
+      # needed to persist filebeat tracking data :
+      - filebeat_data:/usr/share/filebeat/data:rw
+      # needed to access all docker logs on the host (read only) :
+      - /var/lib/docker/containers:/usr/share/dockerlogs/data:ro
+      # needed to access additional informations about containers
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+    - elk
+
 
   elk:
     hostname: elk
@@ -64,12 +95,24 @@ services:
     environment:
       ES_JAVA_OPTS: "-Xms1g -Xmx1g"
     ports:
-      - 5601:5601  # kibana web interface
-      - 9200:9200  # elasticsearch json interface
-      - 5044:5044  # logstash beats interface
+    - 5601:5601  # kibana web interface
+#    - 9200:9200  # elasticsearch json interface
+    - 5044:5044  # logstash beats interface
     networks:
       user_bridge:
         ipv4_address: 172.18.0.130
 # needs sysctl -w vm.max_map_count=262144
 # /etc/sysctl.conf
 # data is stored in /var/lib/elasticsearch
+
+
+
+# docker-compose up --force-recreate --build
+
+# docker-compose up --build elk
+# docker-compose up --build filebeat
+# docker-compose up --build database
+# docker-compose up --build keycloak
+
+
+
