@@ -1,5 +1,17 @@
 # Quickref
 
+setup for elestic search
+
+echo "vm.max_map_count=262144" >> /usr/lib/sysctl.d/vm.conf
+or 
+sysctl -w vm.max_map_count=262144
+
+
+## Docker
+
+
+
+#
 
 gradle clean build
 

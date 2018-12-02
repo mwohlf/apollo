@@ -1,4 +1,4 @@
-version: "3.5"
+version: "3.6"
 
 networks:
   user_bridge:
@@ -10,12 +10,68 @@ volumes:
   # create a persistent volume for Filebeat and postgres
   filebeat_data:
   postgres_data:
+  redis_data:
+  es_data:
 
 #volumes:
 #  postgres_data:
 #    driver: local
 
 services:
+
+  # see: https://github.com/maxyermayank/docker-compose-elasticsearch-kibana/blob/master/docker-compose.yml
+  # index, search & aggregation
+  elasticsearch:
+    hostname: elasticsearch
+    container_name: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.5.0
+    environment:
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+    ports:
+      - 9200:9200
+      - 9300:9300
+    volumes:
+      - ./elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - es_data:/usr/share/elasticsearch/data
+    networks:
+      user_bridge:
+        ipv4_address: 172.18.0.110
+
+
+  # UI
+  kibana:
+    hostname: kibana
+    container_name: kibana
+    image: docker.elastic.co/kibana/kibana-oss:6.5.0
+    ports:
+      - 5601:5601
+    volumes:
+      - ./kibana/config/kibana.yml:/etc/kibana/kibana.yml
+    networks:
+      user_bridge:
+        ipv4_address: 172.18.0.115
+    depends_on:
+      - elasticsearch
+
+
+
+
+
+
+  # broker
+  redis:
+    hostname: redis
+    container_name: redis
+    image: redis:3.2.6
+    ports:
+      - 6379:6379
+    volumes:
+      - redis_data:/data
+    networks:
+      user_bridge:
+        ipv4_address: 172.18.0.120
+
+
 
 
   # see: https://hub.docker.com/_/postgres/
@@ -36,7 +92,7 @@ services:
     #   - postgres_data:/var/lib/postgresql/data
     networks:
       user_bridge:
-        ipv4_address: 172.18.0.120
+        ipv4_address: 172.18.0.130
 
 
   keycloak:
@@ -63,7 +119,7 @@ services:
       - filebeat
     networks:
       user_bridge:
-        ipv4_address: 172.18.0.125
+        ipv4_address: 172.18.0.135
 # keycload admin console is at: http://localhost:8081/auth/admin/
 # adamin login:  admin/s3cr37
 
@@ -76,7 +132,7 @@ services:
       context: ./filebeat
     networks:
       user_bridge:
-        ipv4_address: 172.18.0.135
+        ipv4_address: 172.18.0.145
     volumes:
       # needed to persist filebeat tracking data :
       - filebeat_data:/usr/share/filebeat/data:rw
@@ -88,6 +144,7 @@ services:
     - elk
 
 
+  # see: https://elk-docker.readthedocs.io/
   elk:
     hostname: elk
     container_name: elk
@@ -95,24 +152,44 @@ services:
     environment:
       ES_JAVA_OPTS: "-Xms1g -Xmx1g"
     ports:
-    - 5601:5601  # kibana web interface
-#    - 9200:9200  # elasticsearch json interface
-    - 5044:5044  # logstash beats interface
+      # kibana web interface
+      - 5601:5601
+      # elasticsearch json interface
+      - 9200:9200
+    # endpoint for filebeat
+      - 5044:5044  # logstash beats interface
     networks:
       user_bridge:
-        ipv4_address: 172.18.0.130
+        ipv4_address: 172.18.0.150
+#
+# see: https://elk-docker.readthedocs.io/#creating-dummy-log-entry
+#   docker-compose up --build elk
+#   sudo docker exec -it elk /bin/bash
+#   /opt/logstash/bin/logstash --path.data /tmp/logstash/data -e 'input { stdin { } } output { elasticsearch { hosts => ["localhost"] } }'
+#   search endpoint: http://localhost:9200/_search?pretty
+#   UI: http://localhost:5601
+#   indices: http://localhost:9200/_cat/indices?v  #
+#
+#
+#   [logstash.agent           ] Successfully started Logstash API endpoint {:port=>9600}
+#   [logstash.inputs.beats    ] Beats inputs: Starting input listener {:address=>"0.0.0.0:5044"}
+#   [logstash.outputs.elasticsearch] Restored connection to ES instance {:url=>"http://localhost:9200/"}
+#
+#
+#  /opt/logstash/bin/logstash --path.data /tmp/logstash/data \
+#  -e 'input { stdin { } } output { elasticsearch { hosts => ["localhost"] } }'
+
+#
 # needs sysctl -w vm.max_map_count=262144
 # /etc/sysctl.conf
 # data is stored in /var/lib/elasticsearch
-
-
-
+# echo "vm.max_map_count=262144" >> /usr/lib/sysctl.d/vm.conf
+#  or
+# sysctl -w vm.max_map_count=262144
+#
+#
 # docker-compose up --force-recreate --build
-
 # docker-compose up --build elk
 # docker-compose up --build filebeat
 # docker-compose up --build database
 # docker-compose up --build keycloak
-
-
-
