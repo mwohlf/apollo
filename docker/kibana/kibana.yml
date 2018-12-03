@@ -1,4 +1,4 @@
-
+# kibana.yml
 
 server:
   port: 5601

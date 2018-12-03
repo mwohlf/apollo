@@ -1,23 +1,24 @@
 version: "3.6"
 
 networks:
-  user_bridge:
+  user-bridge:
     ipam:
       config:
         - subnet: 172.18.0.0/16
 
 volumes:
   # create a persistent volume for Filebeat and postgres
-  filebeat_data:
-  postgres_data:
-  redis_data:
-  es_data:
+  filebeat-data:
+  postgres-data:
+  redis-data:
+  es-data:
 
 #volumes:
 #  postgres_data:
 #    driver: local
 
 services:
+
 
   # see: https://github.com/maxyermayank/docker-compose-elasticsearch-kibana/blob/master/docker-compose.yml
   # index, search & aggregation
@@ -28,28 +29,92 @@ services:
     environment:
       - ES_JAVA_OPTS=-Xms1g -Xmx1g
     ports:
+      # kibaba endpoint
       - 9200:9200
       - 9300:9300
     volumes:
       - ./elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-      - es_data:/usr/share/elasticsearch/data
+      - es-data:/usr/share/elasticsearch/data
     networks:
-      user_bridge:
+      user-bridge:
         ipv4_address: 172.18.0.110
+    logging:  # see: https://stackoverflow.com/questions/43486505/docker-compose-json-logging-driver-labels-env
+      driver: "json-file"
+      options:
+        max-size: 10m
+        max-file: "3"
 
 
-  # UI
+  # kibana UI
   kibana:
     hostname: kibana
     container_name: kibana
     image: docker.elastic.co/kibana/kibana-oss:6.5.0
     ports:
+      # UI
       - 5601:5601
     volumes:
-      - ./kibana/config/kibana.yml:/etc/kibana/kibana.yml
+      - ./kibana/kibana.yml:/etc/kibana/kibana.yml
     networks:
-      user_bridge:
+      user-bridge:
         ipv4_address: 172.18.0.115
+    logging:  # see: https://stackoverflow.com/questions/43486505/docker-compose-json-logging-driver-labels-env
+      driver: "json-file"
+      options:
+        max-size: 10m
+        max-file: "3"
+    depends_on:
+      - elasticsearch
+  # setup in UI: index: logstash-*
+  # @timestamp
+
+  logstash:
+    hostname: logstash
+    container_name: logstash
+    build:
+      context: ./logstash
+      args:
+        ELK_VERSION: 6.5.0
+    volumes:
+      - ./logstash/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
+    ports:
+      - 5044:5044
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    networks:
+      user-bridge:
+        ipv4_address: 172.18.0.120
+    logging:  # see: https://stackoverflow.com/questions/43486505/docker-compose-json-logging-driver-labels-env
+      driver: "json-file"
+      options:
+        max-size: 10m
+        max-file: "3"
+    depends_on:
+      - elasticsearch
+
+
+  # see: https://medium.com/@bcoste/powerful-logging-with-docker-filebeat-and-elasticsearch-8ad021aecd87
+  filebeat:
+    hostname: filebeat
+    container_name: filebeat
+    build:
+      context: ./filebeat
+    networks:
+      user-bridge:
+        ipv4_address: 172.18.0.125
+    volumes:
+      # needed to persist filebeat tracking data :
+      - filebeat-data:/usr/share/filebeat/data:rw
+      # needed to access all docker logs on the host (read only) :
+      - /var/lib/docker/containers:/usr/share/filebeat/dockerlogs:ro
+      # needed to access additional informations about containers
+      - /var/run/docker.sock:/var/run/docker.sock
+    logging:  # see: https://stackoverflow.com/questions/43486505/docker-compose-json-logging-driver-labels-env
+      driver: "json-file"
+      options:
+        max-size: 10m
+        max-file: "3"
     depends_on:
       - elasticsearch
 
@@ -57,6 +122,7 @@ services:
 
 
 
+#################################
 
   # broker
   redis:
@@ -66,10 +132,10 @@ services:
     ports:
       - 6379:6379
     volumes:
-      - redis_data:/data
+      - redis-data:/data
     networks:
-      user_bridge:
-        ipv4_address: 172.18.0.120
+      user-bridge:
+        ipv4_address: 172.18.0.129
 
 
 
@@ -91,7 +157,7 @@ services:
     # volumes:
     #   - postgres_data:/var/lib/postgresql/data
     networks:
-      user_bridge:
+      user-bridge:
         ipv4_address: 172.18.0.130
 
 
@@ -118,30 +184,12 @@ services:
       - database
       - filebeat
     networks:
-      user_bridge:
+      user-bridge:
         ipv4_address: 172.18.0.135
 # keycload admin console is at: http://localhost:8081/auth/admin/
 # adamin login:  admin/s3cr37
 
 
-  # see: https://medium.com/@bcoste/powerful-logging-with-docker-filebeat-and-elasticsearch-8ad021aecd87
-  filebeat:
-    hostname: filebeat
-    container_name: filebeat
-    build:
-      context: ./filebeat
-    networks:
-      user_bridge:
-        ipv4_address: 172.18.0.145
-    volumes:
-      # needed to persist filebeat tracking data :
-      - filebeat_data:/usr/share/filebeat/data:rw
-      # needed to access all docker logs on the host (read only) :
-      - /var/lib/docker/containers:/usr/share/dockerlogs/data:ro
-      # needed to access additional informations about containers
-      - /var/run/docker.sock:/var/run/docker.sock
-    depends_on:
-    - elk
 
 
   # see: https://elk-docker.readthedocs.io/
@@ -159,7 +207,7 @@ services:
     # endpoint for filebeat
       - 5044:5044  # logstash beats interface
     networks:
-      user_bridge:
+      user-bridge:
         ipv4_address: 172.18.0.150
 #
 # see: https://elk-docker.readthedocs.io/#creating-dummy-log-entry
