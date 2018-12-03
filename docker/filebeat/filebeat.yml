@@ -1,11 +1,17 @@
 # filebeat.yml
 
 filebeat:
-  prospectors:
-  - type: log
-    enabled: true
-    paths:
-    - /usr/share/filebeat/dockerlogs/*/*.log
+  inputs:
+  - type: docker
+    containers:
+      ids:
+      - "*"
+
+#  prospectors:
+#  - type: log
+#    enabled: true
+#    paths:
+#    - /usr/share/filebeat/dockerlogs/*/*.log
 
 # for debugging
 #output:
