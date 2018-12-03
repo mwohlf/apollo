@@ -1,10 +1,18 @@
 # filebeat.yml
 
-filebeat.prospectors:
-- type: log
-  enabled: true
-  paths:
-  - /usr/share/filebeat/dockerlogs/*/*.log
-output.logstash:
-  hosts: ["logstash:5044"]
+filebeat:
+  prospectors:
+  - type: log
+    enabled: true
+    paths:
+    - /usr/share/filebeat/dockerlogs/*/*.log
+
+# for debugging
+#output:
+#  console:
+#    pretty: true
+
+output:
+  logstash:
+    hosts: ["logstash:5044"]
 
