@@ -4,9 +4,20 @@ filebeat:
   inputs:
   - type: docker
     containers:
+      path: /usr/share/filebeat/dockerlogs
       ids:
       - "*"
 
+
+#  prospectors:
+#  - type: log
+#    paths:
+#    - /usr/share/filebeat/dockerlogs/*/*.log
+#    json.message_key: log
+#    json.keys_under_root: true
+#    processors:
+#    - add_docker_metadata: ~
+#
 #  prospectors:
 #  - type: log
 #    enabled: true
