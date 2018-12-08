@@ -22,13 +22,19 @@ spring:
       ddlAuto: create-drop
     show-sql: false
 
-keycloak:
+# keycloak
+authentication:
+  server-url: "http://localhost:8081/auth"
   admin:
     realm: master
+    username: admin
+    password: s3cr37
+    client-id: admin-cli
   client:
-    realm-id: apollo
+    realm: apollo
     client-id: apollo-backend
 
 logging:
+  pattern:
   level:
     root: info

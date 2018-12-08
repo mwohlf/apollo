@@ -3,9 +3,9 @@ import {MatSidenav} from "@angular/material";
 
 @Component({
     selector: 'app-header',
-    templateUrl: './heading.component.html'
+    templateUrl: './header.component.html'
 })
-export class HeadingComponent implements OnInit {
+export class HeaderComponent implements OnInit {
 
     @Input()
     public sidenav: MatSidenav;

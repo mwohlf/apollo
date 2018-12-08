@@ -8,7 +8,6 @@ filebeat:
       ids:
       - "*"
 
-
 #  prospectors:
 #  - type: log
 #    paths:
@@ -28,6 +27,8 @@ filebeat:
 #output:
 #  console:
 #    pretty: true
+
+fields_under_root: false
 
 output:
   logstash:

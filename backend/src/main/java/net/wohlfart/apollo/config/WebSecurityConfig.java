@@ -1,6 +1,6 @@
 package net.wohlfart.apollo.config;
 
-import net.wohlfart.apollo.login.LoginController;
+import net.wohlfart.apollo.controller.LoginController;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
@@ -25,4 +25,5 @@ public class WebSecurityConfig {
             .httpBasic();
         return http.build();
     }
+
 }

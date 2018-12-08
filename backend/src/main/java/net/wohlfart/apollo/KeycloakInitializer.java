@@ -1,7 +1,8 @@
-package net.wohlfart.apollo.config;
+package net.wohlfart.apollo;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.wohlfart.apollo.keycloak.KeycloakProperties;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
@@ -16,31 +17,36 @@ import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Objects;
 
+
+
+/**
+ *
+ * setup client and initial user
+ *
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class KeycloakInitializer implements InitializingBean {
 
-    private final KeycloakAdminProperties keycloakAdminClientProperties;
-
-    private final KeycloakClientProperties keycloakRealmProperties;
+    private final KeycloakProperties keycloakProperties;
 
     private Keycloak keycloak;
 
     private RealmRepresentation realmRepresentation;
-
-    private ClientRepresentation clientRepresentation;
 
 
     @Override
     public void afterPropertiesSet() throws Exception {
         log.info("<afterPropertiesSet>");
         setupKeycloak();
-        setupRealm();
+        setupRealmForClient();
+        // /auth/realms/{realm}/.well-known/openid-configuration
         setupClient();
         setupTestUsers();
     }
@@ -100,42 +106,51 @@ public class KeycloakInitializer implements InitializingBean {
     }
 
     private void setupClient() {
-        log.info("<setupClient> for keycloakAdminClientProperties {}", keycloakAdminClientProperties);
+        log.info("<setupClient> for keycloakProperties {}", keycloakProperties);
         Objects.requireNonNull(realmRepresentation, "can't setup client without realm being set up");
 
-        this.clientRepresentation = getClientRepresentation(keycloakRealmProperties.getClientId());
+        final KeycloakProperties.Client clientProperties = keycloakProperties.getClient();
+        ClientRepresentation clientRepresentation = getClientRepresentation(clientProperties.getClientId());
 
         // make sure the client exists
-        if (this.clientRepresentation == null) {
-            ClientRepresentation clientRepresentation = new ClientRepresentation();
-            clientRepresentation.setId(keycloakRealmProperties.getClientId());
+        if (clientRepresentation == null) {
+            clientRepresentation = new ClientRepresentation();
+            clientRepresentation.setId(clientProperties.getClientId());
             keycloak.realms().realm(realmRepresentation.getRealm()).clients().create(clientRepresentation);
-            this.clientRepresentation = getClientRepresentation(keycloakRealmProperties.getClientId());
+            clientRepresentation = getClientRepresentation(clientProperties.getClientId());
         }
 
-        Objects.requireNonNull(this.clientRepresentation, "can't setup client");
-        this.clientRepresentation.setEnabled(true);
+        Objects.requireNonNull(clientRepresentation, "can't setup client");
+        clientRepresentation.setEnabled(true);
         // for flows see: https://alexbilbie.com/guide-to-oauth-2-grants/
-        this.clientRepresentation.setDirectAccessGrantsEnabled(true);
-        this.clientRepresentation.setImplicitFlowEnabled(true);
-        this.clientRepresentation.setStandardFlowEnabled(true);
-        final ClientResource clientResource = keycloak.realms().realm(realmRepresentation.getRealm()).clients().get(this.clientRepresentation.getId());
-        clientResource.update(this.clientRepresentation);
+        clientRepresentation.setDirectAccessGrantsEnabled(true);  //  resource owner password access grant
+        clientRepresentation.setImplicitFlowEnabled(true);
+        clientRepresentation.setStandardFlowEnabled(true);
+        final ClientResource clientResource = keycloak.realms().realm(realmRepresentation.getRealm()).clients().get(clientRepresentation.getId());
+        clientResource.update(clientRepresentation);
+
+        // read client secret if not available
+        if (StringUtils.isEmpty(clientProperties.getSecret())) {
+            CredentialRepresentation clientSecret = clientResource.getSecret();
+            log.info("<setupClient> for clientSecret {}", clientSecret.getValue());
+            clientProperties.setSecret(clientSecret.getValue());
+        }
     }
 
-    private void setupRealm() {
-        log.info("<setupRealm> for keycloakAdminClientProperties {}", keycloakAdminClientProperties);
+    private void setupRealmForClient() {
+        log.info("<setupRealmForClient> for keycloakProperties {}", keycloakProperties);
         Objects.requireNonNull(keycloak, "can't setup realm without keycloak being set up");
 
-        this.realmRepresentation = getRealmRepresentation(keycloakRealmProperties.getRealmId());
+        final KeycloakProperties.Client clientProperties = keycloakProperties.getClient();
+        this.realmRepresentation = getRealmRepresentation(clientProperties.getRealm());
 
         // make sure the realm exists
         if (this.realmRepresentation == null) {
             RealmRepresentation realmRepresentation = new RealmRepresentation();
-            realmRepresentation.setId(keycloakRealmProperties.getRealmId());
-            realmRepresentation.setRealm(keycloakRealmProperties.getRealmId());
+            realmRepresentation.setId(clientProperties.getRealm());
+            realmRepresentation.setRealm(clientProperties.getRealm());
             keycloak.realms().create(realmRepresentation);
-            this.realmRepresentation = getRealmRepresentation(keycloakRealmProperties.getRealmId());
+            this.realmRepresentation = getRealmRepresentation(clientProperties.getRealm());
         }
 
         Objects.requireNonNull(this.realmRepresentation, "can't setup realm");
@@ -147,16 +162,18 @@ public class KeycloakInitializer implements InitializingBean {
 
 
     private void setupKeycloak() {
-        log.info("<setupKeycloak> for keycloakAdminClientProperties {}", keycloakAdminClientProperties);
+        log.info("<setupKeycloak> for keycloakProperties {}", keycloakProperties);
+
+        final KeycloakProperties.Admin adminProperties = keycloakProperties.getAdmin();
         this.keycloak = KeycloakBuilder.builder()
-            .serverUrl(keycloakAdminClientProperties.getServerUrl())
-            .realm(keycloakAdminClientProperties.getRealm())
-            .username(keycloakAdminClientProperties.getUsername())
-            .password(keycloakAdminClientProperties.getPassword())
-            .clientId(keycloakAdminClientProperties.getClientId())
+            .serverUrl(keycloakProperties.getServerUrl())
+            .realm(adminProperties.getRealm())
+            .username(adminProperties.getUsername())
+            .password(adminProperties.getPassword())
+            .clientId(adminProperties.getClientId())
             .resteasyClient(
                 new ResteasyClientBuilder()
-                    .connectionPoolSize(keycloakAdminClientProperties.getPoolSize())
+                    .connectionPoolSize(adminProperties.getPoolSize())
                     .build()
             ).build();
     }

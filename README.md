@@ -10,6 +10,30 @@ sysctl -w vm.max_map_count=262144
 ## Docker
 
 
+docker-compose up --build elasticsearch
+
+docker-compose up --build kibana
+
+
+
+[michael@snoopy docker]$ docker rm elasticsearch
+elasticsearch
+[michael@snoopy docker]$ docker volume rm docker_es-data
+docker_es-data
+
+
+
+#### cleanup
+
+docker system prune -a
+
+docker network rm docker_user-bridge
+
+docker volume rm docker_es-data docker_filebeat-data docker_postgres-data docker_redis-data
+
+docker image prune
+
+docker image rm docker_filebeat docker_logstash
 
 #
 

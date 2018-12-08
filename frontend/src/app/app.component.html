@@ -1,3 +1,4 @@
+
 <mat-sidenav-container style="min-height: 100vh;">
 
   <mat-sidenav #sidenav>
@@ -9,13 +10,16 @@
 
   <div fxLayout="column" style="min-height: 100vh;" fxLayoutGap="32px">
     <app-header [sidenav]="sidenav"></app-header>
-    <main class="content">
+    <main fxFlex>
       <router-outlet></router-outlet>
     </main>
     <app-footer></app-footer>
   </div>
+
 </mat-sidenav-container>
 
 <!--
+flex layout in angular:
+https://medium.com/letsboot/quick-start-with-angular-material-and-flex-layout-1b065aa1476c
 https://blog.angularindepth.com/angular-flex-layout-flexbox-and-grid-layout-for-angular-component-6e7c24457b63
 -->

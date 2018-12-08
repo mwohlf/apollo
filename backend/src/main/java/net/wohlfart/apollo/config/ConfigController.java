@@ -20,7 +20,6 @@ public class ConfigController {
 
     public static final String CONFIG_ENDPOINT = API + "/config";
 
-    final KeycloakClientProperties keycloakClientProperties;
 
 
     @GetMapping(path = CONFIG_ENDPOINT)

@@ -20,7 +20,7 @@ import {HttpClientModule} from '@angular/common/http';
 // Main
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from "./app.routing";
-import {HeadingComponent} from './heading/heading.component';
+import {HeaderComponent} from './header/header.component';
 import {FooterComponent} from './footer/footer.component';
 import {Page1Component} from './pages/page1/page1.component';
 import {Page2Component} from './pages/page2/page2.component';
@@ -37,7 +37,7 @@ import { SidenavComponent } from './sidenav/sidenav.component';
 @NgModule({
     declarations: [
         AppComponent,
-        HeadingComponent,
+        HeaderComponent,
         FooterComponent,
         Page1Component,
         Page2Component,
