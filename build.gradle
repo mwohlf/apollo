@@ -13,8 +13,6 @@ ext {
 }
 
 
-// reading versions for tasks
-apply from: "${projectDir}/metadata/versions.gradle"
 
 // reading versions for the build dependencies
 subprojects {
@@ -23,12 +21,15 @@ subprojects {
         repositories {
             mavenCentral()
             maven { url "https://plugins.gradle.org/m2/" }
+            maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
         }
     }
+    // reading versions for tasks
+    apply from: "${rootProject.projectDir}/metadata/versions.gradle"
     repositories {
         mavenLocal() // to pick up the frotnend webjar
         mavenCentral()
-        maven { url "https://plugins.gradle.org/m2/" }
+        jcenter()
     }
 }
 
@@ -40,7 +41,7 @@ wrapper {
 task MrProper {
     dependsOn clean
     doLast {
-        // contains a file lock, can't be deleted when gradle is running
+        // contains a file lock, can't be deleted on windows when gradle is running
         // delete "./.gradle"
     }
 }

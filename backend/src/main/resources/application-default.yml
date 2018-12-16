@@ -2,6 +2,7 @@
 server:
   port: 8080
 
+
 spring:
   application:
     name: apollo
@@ -21,20 +22,13 @@ spring:
     hibernate:
       ddlAuto: create-drop
     show-sql: false
-
-# keycloak
-authentication:
-  server-url: "http://localhost:8081/auth"
-  admin:
-    realm: master
-    username: admin
-    password: s3cr37
-    client-id: admin-cli
-  client:
-    realm: apollo
-    client-id: apollo-backend
+#  webflux:
+#    static-path-pattern: "/**"
+#  resources:
+#    static-locations: "classpath:/public-web-resources-not/"
 
 logging:
   pattern:
+    console: "%d %-5level [%thread] %logger{0} : %msg%n"
   level:
-    root: info
+    root: debug

@@ -1,8 +1,5 @@
 
 buildscript {
-    repositories {
-        maven {  url "https://plugins.gradle.org/m2/" }
-    }
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${versions.spring_boot}"
     }
@@ -26,7 +23,7 @@ sourceCompatibility = 1.8
 
 dependencyManagement {
     imports {
-        mavenBom "org.keycloak.bom:keycloak-adapter-bom:${versions.keycloak}"
+       // mavenBom "org.keycloak.bom:keycloak-adapter-bom:${versions.keycloak}"
     }
 }
 
@@ -38,7 +35,6 @@ dependencies {
     implementation        "net.wohlfart.apollo:frontend:${versions.apollo}"             // the frontend webjar
 
     // spring
-    implementation        "org.keycloak:keycloak-spring-boot-starter"
     implementation        "org.springframework.boot:spring-boot-starter-webflux"
     implementation        "org.springframework.boot:spring-boot-starter-actuator"
     implementation        "org.springframework.boot:spring-boot-starter-security"

@@ -1,11 +1,6 @@
 import io.swagger.codegen.DefaultGenerator
 
 buildscript {
-    repositories {
-        jcenter()
-        mavenCentral()
-        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
-    }
     dependencies {
         // see: https://github.com/thebignet/swagger-codegen-gradle-plugin-example
         classpath("io.swagger:swagger-codegen:${versions.swagger_codegen}") // version is also configured in dependencies.gradle
@@ -18,12 +13,6 @@ plugins {
 
 apply plugin: 'java'
 apply plugin: 'maven-publish'
-
-repositories {
-    mavenLocal()
-    mavenCentral()
-    jcenter()
-}
 
 node {
     version = "${versions.node}"
@@ -93,7 +82,7 @@ publishing {
     }
 }
 
-clean.delete("${projectDir}/src/generated")
+clean.delete( "${projectDir}/src/generated" )
 
 task MrProper {
     dependsOn clean // removed build/

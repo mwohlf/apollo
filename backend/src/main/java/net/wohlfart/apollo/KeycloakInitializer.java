@@ -15,6 +15,7 @@ import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RealmRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -31,6 +32,7 @@ import java.util.Objects;
  */
 @Slf4j
 @Component
+@Profile("keycloak")
 @RequiredArgsConstructor
 public class KeycloakInitializer implements InitializingBean {
 

@@ -1,0 +1,11 @@
+
+authentication:
+  server-url: "http://localhost:8081/auth"
+  admin:
+    realm: master
+    username: admin
+    password: s3cr37
+    client-id: admin-cli
+  client:
+    realm: apollo
+    client-id: apollo-backend

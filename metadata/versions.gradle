@@ -14,7 +14,7 @@ ext.versions = [
     swagger_codegen     :  '2.3.1-SNAPSHOT',
     keycloak            :  '4.7.0.Final',
     resteasy            :  '3.6.1.Final',
-    spring_boot         :  '2.0.6.RELEASE',    // used in the buildscript
+    spring_boot         :  '2.1.1.RELEASE',    // used in the buildscript for gradle plugins
     guava               :  '27.0-jre',
 
     spring_oauth2       :  '2.3.4.RELEASE',
