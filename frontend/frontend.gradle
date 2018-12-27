@@ -82,14 +82,13 @@ publishing {
     }
 }
 
-clean.delete( "${projectDir}/src/generated" )
-
 task MrProper {
-    dependsOn clean // removed build/
+    dependsOn(clean)
     doLast {
         delete "${projectDir}/src/generated"
-        delete "${projectDir}/dist"  // moved to build/dist in angular.json
+        delete "${projectDir}/dist"                 // moved to build/dist in angular.json
         delete "${projectDir}/.gradle"
         delete "${projectDir}/node_modules"
     }
 }
+

@@ -26,7 +26,6 @@ import java.util.Objects;
 
 
 /**
- *
  * setup client and initial user
  *
  */

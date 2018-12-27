@@ -3,6 +3,9 @@
 // always include only once per project
 @include mat-core();
 
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+
 // import our custom theme
 // @import 'apollo-theme.scss';
 

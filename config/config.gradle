@@ -1,0 +1,31 @@
+
+buildscript {
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${versions.spring_boot}"
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'net.wohlfart'
+version = "${versions.apollo}"
+sourceCompatibility = 1.8
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${versions.spring_cloud_bom}"
+    }
+}
+
+
+dependencies {
+    compile "org.springframework.cloud:spring-cloud-config-server"
+    compile "javax.xml.bind:jaxb-api"
+    compile "org.glassfish.jaxb:jaxb-runtime"
+    compile "javax.activation:activation:${versions.activation}"
+
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile "junit:junit"
+}

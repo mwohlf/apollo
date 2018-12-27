@@ -16,20 +16,25 @@ ext {
 
 // reading versions for the build dependencies
 subprojects {
+
     buildscript {
         apply from: "${rootProject.projectDir}/metadata/versions.gradle"
         repositories {
+            jcenter()
             mavenCentral()
             maven { url "https://plugins.gradle.org/m2/" }
             maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
         }
     }
+
     // reading versions for tasks
     apply from: "${rootProject.projectDir}/metadata/versions.gradle"
     repositories {
-        mavenLocal() // to pick up the frotnend webjar
-        mavenCentral()
         jcenter()
+        mavenCentral()
+        mavenLocal()                                                           // to pick up the frontend webjar
+        maven { url 'http://oss.jfrog.org/artifactory/oss-snapshot-local/' }   // for swagger
+        maven { url 'https://repo.spring.io/libs-milestone' }
     }
 }
 

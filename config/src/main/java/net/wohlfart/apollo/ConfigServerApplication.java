@@ -3,13 +3,16 @@ package net.wohlfart.apollo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.config.server.EnableConfigServer;
+import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@EnableConfigurationProperties
-public class Application {
+@EnableConfigServer
+@ComponentScan(basePackages = {"net.wohlfart.apollo"})
+public class ConfigServerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(ConfigServerApplication.class, args);
     }
 
 }

@@ -1,13 +1,16 @@
 rootProject.name = 'apollo'
 
 // see: https://docs.gradle.org/4.10.2/userguide/publishing_maven.html#publishing_maven:deferred_configuration
-enableFeaturePreview('STABLE_PUBLISHING')
+// deprecated feature
+// enableFeaturePreview('STABLE_PUBLISHING')
 
 // submodules
 include 'frontend'
 include 'backend'
 // include 'console'
 include 'docker'
+include 'eureka'
+include 'config'
 
 
 // check for proper modules configs

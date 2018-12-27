@@ -2,20 +2,15 @@
 buildscript {
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${versions.spring_boot}"
+        classpath "gradle.plugin.com.benjaminsproule:swagger-gradle-plugin:${versions.swagger_gradle_plugin}"
     }
-}
-
-
-repositories {
-    maven { url 'http://oss.jfrog.org/artifactory/oss-snapshot-local/' }
-    mavenLocal()
-    mavenCentral()
-    jcenter()
 }
 
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'com.benjaminsproule.swagger'
+
 
 group = 'net.wohlfart'
 version = "${versions.apollo}"
@@ -23,30 +18,34 @@ sourceCompatibility = 1.8
 
 dependencyManagement {
     imports {
-       // mavenBom "org.keycloak.bom:keycloak-adapter-bom:${versions.keycloak}"
+        mavenBom "org.springframework:spring-framework-bom:${versions.spring_framework_bom}"
     }
 }
 
-
 // make sure the frontend is compiled and in mavenLocal
-compileJava.dependsOn(':frontend:publishWebJarPublicationToMavenLocal')
+// TODO: delay this dependency to the assemble step, because the api definition is created on compile
+// compileJava.dependsOn(':frontend:publishWebJarPublicationToMavenLocal')
 
 dependencies {
     implementation        "net.wohlfart.apollo:frontend:${versions.apollo}"             // the frontend webjar
 
     // spring
+    // implementation        "org.springframework.boot:spring-boot-starter-web"
     implementation        "org.springframework.boot:spring-boot-starter-webflux"
     implementation        "org.springframework.boot:spring-boot-starter-actuator"
     implementation        "org.springframework.boot:spring-boot-starter-security"
+    // implementation        "org.springframework.boot:spring-boot-starter-jetty"
+
 
     // springfox
     implementation        "io.springfox:springfox-swagger2:${versions.springfox}"
     implementation        "io.springfox:springfox-spring-webflux:${versions.springfox}"
     implementation        "io.springfox:springfox-swagger-ui:${versions.springfox}"
 
-    // spring security
-    implementation        "org.springframework.security.oauth:spring-security-oauth2:${versions.spring_oauth2}"
-
+    // spring security for mvc
+    // implementation        "org.springframework.security.oauth:spring-security-oauth2:${versions.spring_oauth2}"
+    implementation        "org.springframework.security:spring-security-oauth2-client"
+    implementation        "org.springframework.security:spring-security-oauth2-jose"
 
     // redhat
     implementation        "org.jboss.resteasy:resteasy-client:${versions.resteasy}"
@@ -67,19 +66,51 @@ dependencies {
     annotationProcessor   "org.springframework.boot:spring-boot-configuration-processor"
 
     testImplementation    'org.springframework.boot:spring-boot-starter-test'
+    testImplementation    'org.springframework.security:spring-security-test'
     testImplementation    'io.projectreactor:reactor-test'
 }
 
 
 springBoot {
-    mainClassName = 'net.wohlfart.apollo.Application'
+    mainClassName = 'net.wohlfart.apollo.BackendServerApplication'
 }
 
-clean.delete("${projectDir}/out")  // from idea
+clean.doFirst {
+    delete "${projectDir}/out" // from idea
+}
 
 task MrProper {
-    dependsOn clean // removed build/
-    doLast {
-        delete "${projectDir}/.gradle"
+    dependsOn(clean)
+    delete "${projectDir}/.gradle"  // might not work on windows
+}
+
+
+// see: https://github.com/gigaSproule/swagger-gradle-plugin
+swagger {
+    File apiDefinitionPath = file("${rootProject.ext.apiDefinitionPath}")
+    apiSource {
+        locations = ["net.wohlfart.apollo.config"]
+        swaggerDirectory = apiDefinitionPath.parentFile
+        swaggerFileName = apiDefinitionPath.name.take(apiDefinitionPath.name.lastIndexOf('.'))
+
+        springmvc = true
+        schemes = ['http', 'https']
+        basePath = '/api'
+
+        info {
+            title = 'Apollo API'
+            description = 'The Apollo API.'
+            version = '1.0'
+            license {
+                url = 'http://www.apache.org/licenses/LICENSE-2.0.html'
+                name = 'Apache 2.0'
+            }
+        }
+        securityDefinition {
+            name = 'Name'
+            type = 'oauth2'
+        }
+        swaggerApiReader = 'com.github.kongchen.swagger.docgen.reader.SwaggerReader'
+        // odelConverters = [ 'io.swagger.validator.BeanValidator' ]
     }
 }

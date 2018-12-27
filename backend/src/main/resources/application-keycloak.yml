@@ -1,6 +1,6 @@
 
 authentication:
-  server-url: "http://localhost:8081/auth"
+  server-url: http://localhost:8081/auth
   admin:
     realm: master
     username: admin

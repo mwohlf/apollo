@@ -1,172 +1,46 @@
 {
-    "swagger": "2.0",
-    "info": {
-        "version": "0.0.1",
-        "title": "Apollo Portal Backend"
-    },
-    "host": "localhost:8080",
-    "basePath": "/",
-    "tags": [{
-        "name": "config-controller",
-        "description": "Config Controller"
-    }, {
-        "name": "event-controller",
-        "description": "Event Controller"
-    }, {
-        "name": "login-controller",
-        "description": "Login Controller"
-    }],
-    "consumes": ["application/json"],
-    "produces": ["application/json"],
-    "paths": {
-        "/api/config": {
-            "get": {
-                "tags": ["config-controller"],
-                "summary": "config",
-                "operationId": "configUsingGET",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/ApplicationProperties"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                },
-                "deprecated": false
-            }
-        },
-        "/api/login": {
-            "post": {
-                "tags": ["login-controller"],
-                "summary": "authenticate",
-                "operationId": "authenticateUsingPOST",
-                "produces": ["application/stream+json"],
-                "parameters": [{
-                    "in": "body",
-                    "name": "authentication",
-                    "description": "authentication",
-                    "required": true,
-                    "schema": {
-                        "$ref": "#/definitions/UsernamePasswordCredential"
-                    }
-                }],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/MonoOfBearerTokenCredential"
-                        }
-                    },
-                    "201": {
-                        "description": "Created"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                },
-                "deprecated": false
-            }
-        },
-        "/api/stream-sse": {
-            "get": {
-                "tags": ["event-controller"],
-                "summary": "streamEvents",
-                "operationId": "streamEventsUsingGET",
-                "produces": ["text/event-stream"],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/FluxOfServerSentEventOfstring"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                },
-                "deprecated": false
-            }
-        }
-    },
-    "securityDefinitions": {
-        "oauth2": {
-            "type": "oauth2",
-            "tokenUrl": "http://apollo:8080/auth",
-            "flow": "password",
-            "scopes": {
-                "Apoollo": "Apoollo API"
-            }
-        }
-    },
-    "definitions": {
-        "ApplicationProperties": {
-            "type": "object",
-            "properties": {
-                "streamSse": {
-                    "type": "string"
-                }
-            },
-            "title": "ApplicationProperties"
-        },
-        "BearerTokenCredential": {
-            "type": "object",
-            "properties": {
-                "value": {
-                    "type": "string"
-                }
-            },
-            "title": "BearerTokenCredential"
-        },
-        "FluxOfServerSentEventOfstring": {
-            "type": "object",
-            "properties": {
-                "prefetch": {
-                    "type": "integer",
-                    "format": "int32"
-                }
-            },
-            "title": "FluxOfServerSentEventOfstring"
-        },
-        "MonoOfBearerTokenCredential": {
-            "type": "object",
-            "title": "MonoOfBearerTokenCredential"
-        },
-        "ServerSentEventOfstring": {
-            "type": "object",
-            "title": "ServerSentEventOfstring"
-        },
-        "UsernamePasswordCredential": {
-            "type": "object",
-            "properties": {
-                "password": {
-                    "type": "string"
-                },
-                "useranme": {
-                    "type": "string"
-                }
-            },
-            "title": "UsernamePasswordCredential"
-        }
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "The Apollo API.",
+    "version" : "1.0",
+    "title" : "Apollo API",
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
+  },
+  "basePath" : "/api",
+  "schemes" : [ "http", "https" ],
+  "paths" : {
+    "/api/config" : {
+      "get" : {
+        "summary" : "Submit new foo",
+        "description" : "",
+        "operationId" : "getConfig",
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/ApplicationProperties"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "Name" : {
+      "type" : "oauth2"
+    }
+  },
+  "definitions" : {
+    "ApplicationProperties" : {
+      "type" : "object",
+      "properties" : {
+        "streamSse" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
 }
