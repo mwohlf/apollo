@@ -19,6 +19,13 @@ dependencyManagement {
     }
 }
 
+clean.doFirst {
+    delete "${projectDir}/out" // from idea
+}
+
+task MrProper {
+    dependsOn(clean)
+}
 
 dependencies {
     compile "org.springframework.cloud:spring-cloud-config-server"
