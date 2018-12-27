@@ -10,13 +10,19 @@
     }
   },
   "basePath" : "/api",
+  "tags" : [ {
+    "name" : "config-controller"
+  }, {
+    "name" : "login-controller"
+  } ],
   "schemes" : [ "http", "https" ],
   "paths" : {
     "/api/config" : {
       "get" : {
-        "summary" : "Submit new foo",
+        "tags" : [ "config-controller" ],
+        "summary" : "get application config data",
         "description" : "",
-        "operationId" : "getConfig",
+        "operationId" : "getApplicationProperties",
         "responses" : {
           "200" : {
             "description" : "successful operation",
@@ -26,18 +32,60 @@
           }
         }
       }
-    }
-  },
-  "securityDefinitions" : {
-    "Name" : {
-      "type" : "oauth2"
+    },
+    "/api/login" : {
+      "post" : {
+        "tags" : [ "login-controller" ],
+        "summary" : "get application config data",
+        "description" : "",
+        "operationId" : "authenticate",
+        "produces" : [ "application/stream+json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/UsernamePasswordCredential"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/BearerTokenCredential"
+            }
+          }
+        }
+      }
     }
   },
   "definitions" : {
     "ApplicationProperties" : {
       "type" : "object",
+      "required" : [ "streamSse" ],
       "properties" : {
         "streamSse" : {
+          "type" : "string"
+        }
+      }
+    },
+    "BearerTokenCredential" : {
+      "type" : "object",
+      "required" : [ "value" ],
+      "properties" : {
+        "value" : {
+          "type" : "string"
+        }
+      }
+    },
+    "UsernamePasswordCredential" : {
+      "type" : "object",
+      "required" : [ "password", "useranme" ],
+      "properties" : {
+        "useranme" : {
+          "type" : "string"
+        },
+        "password" : {
           "type" : "string"
         }
       }

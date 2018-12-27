@@ -55,12 +55,22 @@ ng generate c pages/page1 -d
 
 
 event source:
+
 https://thepracticaldeveloper.com/2017/11/04/full-reactive-stack-ii-the-angularjs-client/
 
 startup docker:
+
 [michael@snoopy docker]$ gradle composeUp
 
 see: https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-gradle-plugin
+
+
+crate Swagger Defintion
+
+gradle generateSwaggerDocumentation
+
+gradle generateApi
+
 
 
 # Frontend

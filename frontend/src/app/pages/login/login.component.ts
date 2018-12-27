@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
-import {LoginControllerService} from "../../../generated";
+import {BearerTokenCredential, LoginControllerService} from "../../../generated";
 import {UsernamePasswordCredential} from "../../../generated";
-import {MonoOfBearerTokenCredential} from "../../../generated/model/monoOfBearerTokenCredential";
 
 @Component({
     selector: 'app-login',
@@ -27,8 +26,8 @@ export class LoginComponent implements OnInit {
             password: this.loginForm.controls["username"].value,
             useranme: this.loginForm.controls["password"].value
         };
-        this.loginControllerService.authenticateUsingPOST(usernamePasswordCredential).subscribe(
-            (next: MonoOfBearerTokenCredential) => {
+        this.loginControllerService.authenticate(usernamePasswordCredential).subscribe(
+            (next: BearerTokenCredential) => {
                 console.info("<login>", next);
             }
         );

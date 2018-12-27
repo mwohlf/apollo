@@ -23,8 +23,7 @@ dependencyManagement {
 }
 
 // make sure the frontend is compiled and in mavenLocal
-// TODO: delay this dependency to the assemble step, because the api definition is created on compile
-// compileJava.dependsOn(':frontend:publishWebJarPublicationToMavenLocal')
+assemble.dependsOn(':frontend:publishWebJarPublicationToMavenLocal')
 
 dependencies {
     implementation        "net.wohlfart.apollo:frontend:${versions.apollo}"             // the frontend webjar
@@ -89,7 +88,10 @@ task MrProper {
 swagger {
     File apiDefinitionPath = file("${rootProject.ext.apiDefinitionPath}")
     apiSource {
-        locations = ["net.wohlfart.apollo.config"]
+        locations = [
+            "net.wohlfart.apollo.config",
+            "net.wohlfart.apollo.keycloak"
+        ]
         swaggerDirectory = apiDefinitionPath.parentFile
         swaggerFileName = apiDefinitionPath.name.take(apiDefinitionPath.name.lastIndexOf('.'))
 
@@ -106,11 +108,12 @@ swagger {
                 name = 'Apache 2.0'
             }
         }
-        securityDefinition {
-            name = 'Name'
-            type = 'oauth2'
-        }
-        swaggerApiReader = 'com.github.kongchen.swagger.docgen.reader.SwaggerReader'
-        // odelConverters = [ 'io.swagger.validator.BeanValidator' ]
+        // securityDefinition {
+        //    type = 'oauth2'
+        //    name = 'implicit'
+        //    flow = ''
+        // }
+        // swaggerApiReader = 'com.github.kongchen.swagger.docgen.reader.SwaggerReader'
+        // modelConverters = [ 'io.swagger.validator.BeanValidator' ]
     }
 }

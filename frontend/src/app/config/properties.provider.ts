@@ -26,7 +26,7 @@ export class PropertiesProvider {
     public init(): Promise<boolean> {
         console.info("<init> start...");
         return new Promise<boolean>((resolve) => {
-            this.configControllerService.configUsingGET().subscribe(
+            this.configControllerService.getApplicationProperties().subscribe(
                 (applicationProperties: ApplicationProperties) => {
                     this.applicationProperties = applicationProperties;
                     console.info("<init> ...success ", this.applicationProperties);
