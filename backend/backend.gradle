@@ -22,11 +22,14 @@ dependencyManagement {
     }
 }
 
-// make sure the frontend is compiled and in mavenLocal
-jar.dependsOn(':frontend:publishWebJarPublicationToMavenLocal')
 
 dependencies {
-    implementation        "net.wohlfart.apollo:frontend:${versions.apollo}"             // the frontend webjar
+
+    // not the final webjar:
+    // implementation        project(':frontend').task('publishWebJarPublicationToMavenLocal')
+    implementation        project(':frontend')
+    // the webjar from the frontend:
+    // implementation        "net.wohlfart.apollo:frontend:${versions.apollo}"             // the frontend webjar
 
     // spring
     // implementation        "org.springframework.boot:spring-boot-starter-web"

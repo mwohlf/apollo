@@ -11,8 +11,9 @@ plugins {
     id "com.moowork.node" version "1.2.0"
 }
 
-apply plugin: 'java'
-apply plugin: 'maven-publish'
+// apply plugin: 'java'
+apply plugin: 'maven'
+
 
 node {
     version = "${versions.node}"
@@ -53,32 +54,34 @@ task yarnRunBuild(type: YarnTask) {
     args = ['run', 'build']   // compiles into build/dist. the output dir in package.json for "ng build"
 }
 
+
+configurations {
+    webjar
+}
+
+// see: https://discuss.gradle.org/t/creating-a-webjar-gradle-upload-does-not-create-maven-metadata-xml/1480
 // gradle webjar creates
-task webjar(type: Jar) {
+task webjar(type: Zip) {
     group "Artifact Generation"
     description "assemble the maven artifact"
 
+    extension 'jar'
+    classifier 'webjar'
     dependsOn yarnRunBuild
-    // default is to build into /dist however we want it gradle style ki side the build directory and changed the path in angular.json
+    // default is to build into /dist, however we want it gradle style, also need to change the path in angular.json
     from(fileTree("build/dist")) {
         into "META-INF/resources"
     }
+    outputs.file archivePath
 }
-build.dependsOn(generateApi)
-build.dependsOn(webjar)
-build.dependsOn(publishToMavenLocal)
 
-publishing {
-    publications {
-        // publish the frontend project as webjar to maven local
-        WebJar(MavenPublication) {
-            groupId 'net.wohlfart.apollo'
-            artifactId 'frontend'
-            version '0.0.1-SNAPSHOT'
-            // the content of the webjar:
-            artifact webjar
-            // from webjar
-        }
+build.dependsOn(webjar)
+
+
+artifacts {
+    webjar(webjar.archivePath) {
+        type 'jar'
+        builtBy webjar
     }
 }
 
