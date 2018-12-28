@@ -71,6 +71,8 @@ gradle generateSwaggerDocumentation
 
 gradle generateApi
 
+gradle bootRun
+
 
 
 # Frontend

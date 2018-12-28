@@ -70,7 +70,8 @@ task webjar(type: Zip) {
     dependsOn yarnRunBuild
     // default is to build into /dist, however we want it gradle style, also need to change the path in angular.json
     from(fileTree("build/dist")) {
-        into "META-INF/resources"
+        // into "META-INF/resources/webjars" // must match WebJarsResourceResolver.WEBJARS_LOCATION
+        into "META-INF/resources" // must match WebJarsResourceResolver.WEBJARS_LOCATION
     }
     outputs.file archivePath
 }

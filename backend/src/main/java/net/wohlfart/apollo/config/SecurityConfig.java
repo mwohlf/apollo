@@ -1,6 +1,5 @@
 package net.wohlfart.apollo.config;
 
-import org.springframework.boot.actuate.autoconfigure.security.reactive.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
@@ -24,23 +23,25 @@ public class SecurityConfig {
     public static final String API = "/api";
 
     @Bean
-    RouterFunction<ServerResponse> staticResourceRouter(){
-        return RouterFunctions.resources("/**", new ClassPathResource("static/"));
-    }
-
-    @Bean
     public SecurityWebFilterChain securitygWebFilterChain(ServerHttpSecurity http) {
         // @formatter:off
-        return http.authorizeExchange()
+        return http
+            //
+            .build();
+        /*
+            .anyExchange().permitAll()
+
+            .authorizeExchange()
             .pathMatchers("/", "/admin").hasAuthority("ROLE_ADMIN")
             .matchers(EndpointRequest.to(FeaturesEndpoint.class)).permitAll()
             .anyExchange().permitAll()
             .and()
             .formLogin()
-            .and()
+                .disable()
             .csrf()
-            .disable()
+                .disable()
             .build();
+            */
         // @formatter:on
     }
 

@@ -31,4 +31,5 @@ logging:
   pattern:
     console: "%d %-5level [%thread] %logger{0} : %msg%n"
   level:
-    root: info
+#    root: info
+    root: debug
