@@ -24,19 +24,13 @@ dependencyManagement {
 
 
 dependencies {
-
-    // not the final webjar:
-    // implementation        project(':frontend').task('publishWebJarPublicationToMavenLocal')
-    implementation        project(':frontend')
-    // the webjar from the frontend:
-    // implementation        "net.wohlfart.apollo:frontend:${versions.apollo}"             // the frontend webjar
+    
+    compile project(path: ':frontend', configuration: 'webjar')
 
     // spring
-    // implementation        "org.springframework.boot:spring-boot-starter-web"
     implementation        "org.springframework.boot:spring-boot-starter-webflux"
     implementation        "org.springframework.boot:spring-boot-starter-actuator"
     implementation        "org.springframework.boot:spring-boot-starter-security"
-    // implementation        "org.springframework.boot:spring-boot-starter-jetty"
 
 
     // springfox
@@ -45,16 +39,13 @@ dependencies {
     implementation        "io.springfox:springfox-swagger-ui:${versions.springfox}"
 
     // spring security for mvc
-    // implementation        "org.springframework.security.oauth:spring-security-oauth2:${versions.spring_oauth2}"
     implementation        "org.springframework.security:spring-security-oauth2-client"
     implementation        "org.springframework.security:spring-security-oauth2-jose"
 
     // redhat
     implementation        "org.jboss.resteasy:resteasy-client:${versions.resteasy}"
     implementation        "org.jboss.resteasy:resteasy-jackson2-provider:${versions.resteasy}"
-    // implementation      'org.keycloak:keycloak-spring-boot-starter'
     implementation        "org.keycloak:keycloak-admin-client:${versions.keycloak}"
-    // implementation      'org.springframework.boot:spring-boot-starter-jersey'
 
     // misc
     implementation        "com.h2database:h2"  // used in the default profile
@@ -111,12 +102,5 @@ swagger {
                 name = 'Apache 2.0'
             }
         }
-        // securityDefinition {
-        //    type = 'oauth2'
-        //    name = 'implicit'
-        //    flow = ''
-        // }
-        // swaggerApiReader = 'com.github.kongchen.swagger.docgen.reader.SwaggerReader'
-        // modelConverters = [ 'io.swagger.validator.BeanValidator' ]
     }
 }
