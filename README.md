@@ -1,4 +1,4 @@
-# Quickref  [![Build Status](https://travis-ci.org/mwohlf/apollo.svg?branch=master)](https://travis-ci.org/mwohlf/apollo)
+# Quickref  [![Build Status](https://travis-ci.org/mwohlf/apollo.svg?branch=dev)](https://travis-ci.org/mwohlf/apollo)
 
 setup for elestic search
 
