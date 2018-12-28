@@ -8,8 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ServerWebExchange;
-import springfox.documentation.annotations.ApiIgnore;
+import reactor.core.publisher.Mono;
 
 import static net.wohlfart.apollo.config.SecurityConfig.API;
 
@@ -24,11 +23,9 @@ public class LoginController {
     private final KeycloakProperties keycloakProperties;
 
     @ApiOperation(value = "get application config data", response = BearerTokenCredential.class)
-    @PostMapping(path = LoginController.LOGIN_ENDPOINT, produces = MediaType.APPLICATION_STREAM_JSON_VALUE)
-    public BearerTokenCredential authenticate(@ApiIgnore  ServerWebExchange exchange,
-                                              @RequestBody UsernamePasswordCredential authentication) {
+    @PostMapping(path = LoginController.LOGIN_ENDPOINT, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Mono<BearerTokenCredential> authenticate(@RequestBody UsernamePasswordCredential authentication) {
         log.info("<authenticate> authentication:" + authentication);
-        log.info("<authenticate> exchange:" + exchange);
 
         /*
         final KeycloakProperties.Client client = keycloakProperties.getClient();
@@ -53,7 +50,7 @@ public class LoginController {
         // return Mono.just(new BearerTokenCredential("token"));
         */
 
-        return null;
+        return Mono.just(BearerTokenCredential.builder().value("tokenvalue").build());
     }
 
 }

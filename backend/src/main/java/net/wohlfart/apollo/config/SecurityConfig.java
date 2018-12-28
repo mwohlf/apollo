@@ -23,6 +23,8 @@ public class SecurityConfig {
         return http
             .authorizeExchange().anyExchange().permitAll().and()
             .exceptionHandling().and()
+            .formLogin().disable()
+            .csrf().disable()
             //
             .build();
         /*
