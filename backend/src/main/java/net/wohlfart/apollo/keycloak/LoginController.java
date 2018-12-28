@@ -5,18 +5,16 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ServerWebExchange;
 import springfox.documentation.annotations.ApiIgnore;
 
 import static net.wohlfart.apollo.config.SecurityConfig.API;
 
-
-
 @Slf4j
-@Controller
+@RestController
 @RequiredArgsConstructor
 @Api(tags = "login-controller")
 public class LoginController {

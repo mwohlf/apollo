@@ -1,6 +1,5 @@
 package net.wohlfart.apollo.config;
 
-
 import com.fasterxml.classmate.TypeResolver;
 import com.google.common.collect.Sets;
 import io.swagger.annotations.Api;
@@ -24,8 +23,6 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-
-
 
 // see: https://github.com/springfox/springfox/blob/master/springfox-spring-config/src/main/java/springfox/springconfig/Swagger2SpringBoot.java
 // see: http://www.baeldung.com/swagger-2-documentation-for-spring-rest-api

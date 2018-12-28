@@ -23,11 +23,8 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 import java.util.Objects;
 
-
-
 /**
  * setup client and initial user
- *
  */
 @Slf4j
 @Component
