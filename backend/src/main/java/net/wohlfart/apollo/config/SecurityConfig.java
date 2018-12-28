@@ -26,6 +26,8 @@ public class SecurityConfig {
     public SecurityWebFilterChain securitygWebFilterChain(ServerHttpSecurity http) {
         // @formatter:off
         return http
+            .authorizeExchange().anyExchange().permitAll().and()
+            .exceptionHandling().and()
             //
             .build();
         /*

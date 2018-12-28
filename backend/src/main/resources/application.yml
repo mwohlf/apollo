@@ -22,10 +22,6 @@ spring:
     hibernate:
       ddlAuto: create-drop
     show-sql: false
-#  webflux:
-#    static-path-pattern: "/**"
-#  resources:
-#    static-locations: "classpath:/public-web-resources-not/"
 
 logging:
   pattern:

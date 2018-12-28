@@ -23,4 +23,6 @@ public class ConfigController {
         return Flux.just(ApplicationProperties.builder().build());
     }
 
+
+
 }
