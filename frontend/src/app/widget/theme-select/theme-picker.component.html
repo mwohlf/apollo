@@ -10,7 +10,7 @@
     <mat-grid-tile *ngFor="let themeChoice of themeChoices">
       <div mat-menu-item (click)="installTheme(themeChoice.value)">
         <div class="docs-theme-picker-swatch">
-          <mat-icon class="docs-theme-chosen-icon" *ngIf="currentTheme === themeChoice">check_circle</mat-icon>
+          <mat-icon class="docs-theme-chosen-icon" *ngIf="nextTheme === themeChoice">check_circle</mat-icon>
           <div class="docs-theme-picker-primary">{{themeChoice.label}}</div>
         </div>
       </div>

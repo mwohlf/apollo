@@ -3,7 +3,6 @@ import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
     MatButtonModule,
-    MatButtonModule,
     MatCardModule,
     MatCheckboxModule,
     MatDialogModule,
@@ -38,8 +37,9 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {ApiModule, BASE_PATH} from '../generated';
 import {initProperties, PropertiesProvider} from './config/properties.provider';
 import {initIcons, IconsProvider} from './config/icons.provider';
-import { SidenavComponent } from './sidenav/sidenav.component';
-import { ThemePickerComponent } from './widget/theme-select/theme-picker.component';
+import {SidenavComponent} from './sidenav/sidenav.component';
+import {ThemePickerComponent} from './widget/theme-select/theme-picker.component';
+import {ThemeService} from './config/theme.service';
 
 
 @NgModule({
@@ -84,6 +84,7 @@ import { ThemePickerComponent } from './widget/theme-select/theme-picker.compone
     providers: [
         IconsProvider,
         KeycloakService,
+        ThemeService,
         PropertiesProvider,
 
         { provide: APP_INITIALIZER, useFactory: initProperties, deps: [PropertiesProvider], multi: true },

@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {OverlayContainer} from '@angular/cdk/overlay';
+import {ThemeService} from '../../config/theme.service';
 
 
 export interface ThemeChoice {
@@ -15,20 +16,19 @@ export interface ThemeChoice {
 })
 export class ThemePickerComponent implements OnInit {
 
-    public themeChoices: ThemeChoice[] = [
-        {value: 'default-theme', label: 'Default'},
-        {value: 'light-theme', label: 'Light'},
-        {value: 'dark-theme', label: 'Dark'}
-    ];
+    public nextTheme: ThemeChoice;
 
-    public currentTheme: ThemeChoice;
+    public themeChoices: any = ThemeService.THEME_CHOICES;
 
-    constructor(private overlayContainer: OverlayContainer) { }
+    constructor(private overlayContainer: OverlayContainer,
+                private themeService: ThemeService) { }
 
     ngOnInit() {
     }
 
     installTheme(value: string) {
-        this.currentTheme = this.themeChoices.find( (themeChoice: ThemeChoice) => themeChoice.value === value );
+        this.nextTheme = ThemeService.THEME_CHOICES.find( (themeChoice: ThemeChoice) => themeChoice.value === value );
+        this.themeService.installTheme(this.nextTheme);
     }
+
 }
