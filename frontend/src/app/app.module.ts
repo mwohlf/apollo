@@ -38,8 +38,8 @@ import {ApiModule, BASE_PATH} from '../generated';
 import {initProperties, PropertiesProvider} from './config/properties.provider';
 import {initIcons, IconsProvider} from './config/icons.provider';
 import {SidenavComponent} from './sidenav/sidenav.component';
-import {ThemePickerComponent} from './widget/theme-select/theme-picker.component';
-import {ThemeService} from './config/theme.service';
+import {ThemePickerComponent} from './widget/theme-picker/theme-picker.component';
+import {ThemePickerService} from './services/theme-picker.service';
 
 
 @NgModule({
@@ -84,7 +84,7 @@ import {ThemeService} from './config/theme.service';
     providers: [
         IconsProvider,
         KeycloakService,
-        ThemeService,
+        ThemePickerService,
         PropertiesProvider,
 
         { provide: APP_INITIALIZER, useFactory: initProperties, deps: [PropertiesProvider], multi: true },

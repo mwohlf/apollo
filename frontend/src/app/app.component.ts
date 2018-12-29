@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {KeycloakService} from './services/keycloak.service';
-import {ThemeChoice, ThemeService} from './config/theme.service';
+import {ThemeChoice, ThemePickerService} from './services/theme-picker.service';
 import {Subscription} from 'rxjs';
 import {OverlayContainer} from '@angular/cdk/overlay';
 
@@ -17,7 +17,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     constructor(private overlayContainer: OverlayContainer,
                 private keycloakService: KeycloakService,
-                private themeService: ThemeService) {
+                private themePickerService: ThemePickerService) {
     }
 
     ngOnInit(): void {
@@ -26,7 +26,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.body = document.getElementsByTagName('body')[0];
         this.overlay = this.overlayContainer.getContainerElement();
 
-        this.subscription = this.themeService.subscribe((last: ThemeChoice, next: ThemeChoice) => {
+        this.subscription = this.themePickerService.subscribe((last: ThemeChoice, next: ThemeChoice) => {
             console.log('<ngOnInit> switching from ', last);
             console.log('<ngOnInit> switching to ', next);
 

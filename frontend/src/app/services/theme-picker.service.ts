@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Subscription} from "rxjs";
+import {BehaviorSubject, Subscription} from 'rxjs';
 
 
 export interface ThemeChoice {
@@ -9,7 +9,7 @@ export interface ThemeChoice {
 
 
 @Injectable()
-export class ThemeService {
+export class ThemePickerService {
 
     public static THEME_CHOICES: ThemeChoice[] = [
         {value: 'default-theme', label: 'Default'},
@@ -17,8 +17,9 @@ export class ThemeService {
         {value: 'dark-theme', label: 'Dark'},
     ];
 
-    private last: ThemeChoice = ThemeService.THEME_CHOICES[0];
-    private themeSubject: BehaviorSubject<ThemeChoice> = new BehaviorSubject<ThemeChoice>(ThemeService.THEME_CHOICES[0]);
+    private last: ThemeChoice = ThemePickerService.THEME_CHOICES[0];
+
+    private themeSubject: BehaviorSubject<ThemeChoice> = new BehaviorSubject<ThemeChoice>(ThemePickerService.THEME_CHOICES[0]);
 
     public installTheme(nextTheme: ThemeChoice): void {
         this.last = this.themeSubject.getValue();
