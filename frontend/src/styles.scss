@@ -5,15 +5,33 @@
 
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
+// see: https://medium.com/@tomastrajan/the-complete-guide-to-angular-material-themes-4d165a9d24d1
 
-// import our custom theme
-// @import 'apollo-theme.scss';
+// Default theme
+$default-primary: mat-palette($mat-teal, 700, 100, 800);
+$default-accent:  mat-palette($mat-teal, 700, 100, 800);
+$default-warn:    mat-palette($mat-deep-purple);
+$default-theme:    mat-light-theme($default-primary, $default-accent, $default-warn);
+.dark-theme {
+  @include angular-material-theme($default-theme);
+}
 
-// specify theme class eg: <body class="my-theme"> ... </body>
-// .my-theme {
-//
-//   // use our theme with angular-material-theme mixin
-//   @include angular-material-theme($my-theme);
-// }
+// Dark theme
+$dark-primary:    mat-palette($mat-blue-grey);
+$dark-accent:     mat-palette($mat-amber, A200, A100, A400);
+$dark-warn:       mat-palette($mat-deep-orange);
+$dark-theme:      mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
+.dark-theme {
+  @include angular-material-theme($dark-theme);
+}
+
+// Light theme
+$light-primary:   mat-palette($mat-grey, 200, 500, 300);
+$light-accent:    mat-palette($mat-brown, 200);
+$light-warn:      mat-palette($mat-deep-orange, 200);
+$light-theme:     mat-light-theme($light-primary, $light-accent, $light-warn);
+.light-theme {
+  @include angular-material-theme($light-theme)
+}
 
 

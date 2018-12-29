@@ -7,7 +7,6 @@ import {KeycloakService} from "./services/keycloak.service";
 })
 export class AppComponent implements OnInit {
 
-    title = 'app';
 
     constructor(private keycloakService: KeycloakService) {
 

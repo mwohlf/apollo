@@ -1,0 +1,8 @@
+
+<mat-form-field>
+  <mat-select placeholder="Theme">
+    <mat-option *ngFor="let themeChoice of themeChoices" [value]="themeChoice.value">
+      {{themeChoice.viewValue}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

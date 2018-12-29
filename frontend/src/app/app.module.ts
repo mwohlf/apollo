@@ -13,26 +13,31 @@ import {
     MatSidenavModule,
     MatSnackBarModule,
     MatTabsModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatSelectModule
 } from '@angular/material';
+import {MatFormFieldModule} from '@angular/material/form-field';
+
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 // Main
 import {AppComponent} from './app.component';
-import {AppRoutingModule} from "./app.routing";
+import {AppRoutingModule} from './app.routing';
 import {HeaderComponent} from './header/header.component';
 import {FooterComponent} from './footer/footer.component';
 import {Page1Component} from './pages/page1/page1.component';
 import {Page2Component} from './pages/page2/page2.component';
 import {Page3Component} from './pages/page3/page3.component';
-import {KeycloakService} from "./services/keycloak.service";
+import {KeycloakService} from './services/keycloak.service';
 import {LoginComponent} from './pages/login/login.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
-import {ApiModule, BASE_PATH} from "../generated";
-import {initProperties, PropertiesProvider} from "./config/properties.provider";
-import {initIcons, IconsProvider} from "./config/icons.provider";
+import {ApiModule, BASE_PATH} from '../generated';
+import {initProperties, PropertiesProvider} from './config/properties.provider';
+import {initIcons, IconsProvider} from './config/icons.provider';
 import { SidenavComponent } from './sidenav/sidenav.component';
+import { ThemePickerComponent } from './widget/theme-select/theme-picker.component';
+
 
 @NgModule({
     declarations: [
@@ -44,6 +49,7 @@ import { SidenavComponent } from './sidenav/sidenav.component';
         Page3Component,
         LoginComponent,
         SidenavComponent,
+        ThemePickerComponent,
     ],
     imports: [
         ApiModule,
@@ -63,6 +69,8 @@ import { SidenavComponent } from './sidenav/sidenav.component';
         MatTabsModule,
         MatIconModule,
         MatInputModule,
+        MatFormFieldModule,
+        MatSelectModule,
         FormsModule,
         ReactiveFormsModule,
         HttpClientModule,

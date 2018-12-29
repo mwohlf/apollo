@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
-import {BearerTokenCredential, LoginControllerService} from "../../../generated";
-import {UsernamePasswordCredential} from "../../../generated";
+import {BearerTokenCredential, LoginControllerService} from '../../../generated';
+import {UsernamePasswordCredential} from '../../../generated';
 
 @Component({
     selector: 'app-login',
@@ -21,14 +21,14 @@ export class LoginComponent implements OnInit {
     }
 
     public login(): void {
-        console.debug("<login>");
+        console.debug('<login>');
         const usernamePasswordCredential: UsernamePasswordCredential = {
-            password: this.loginForm.controls["username"].value,
-            useranme: this.loginForm.controls["password"].value
+            password: this.loginForm.controls['username'].value,
+            useranme: this.loginForm.controls['password'].value
         };
         this.loginControllerService.authenticate(usernamePasswordCredential).subscribe(
             (next: BearerTokenCredential) => {
-                console.info("<login>", next);
+                console.info('<login>', next);
             }
         );
     }
