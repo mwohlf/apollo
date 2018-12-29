@@ -3,8 +3,8 @@ import {OverlayContainer} from '@angular/cdk/overlay';
 
 
 export interface ThemeChoice {
+    label: string;
     value: string;
-    viewValue: string;
 }
 
 
@@ -16,14 +16,19 @@ export interface ThemeChoice {
 export class ThemePickerComponent implements OnInit {
 
     public themeChoices: ThemeChoice[] = [
-        {value: 'default-theme', viewValue: 'Default'},
-        {value: 'light-theme', viewValue: 'Light'},
-        {value: 'dark-theme', viewValue: 'Dark'}
+        {value: 'default-theme', label: 'Default'},
+        {value: 'light-theme', label: 'Light'},
+        {value: 'dark-theme', label: 'Dark'}
     ];
+
+    public currentTheme: ThemeChoice;
 
     constructor(private overlayContainer: OverlayContainer) { }
 
     ngOnInit() {
     }
 
+    installTheme(value: string) {
+        this.currentTheme = this.themeChoices.find( (themeChoice: ThemeChoice) => themeChoice.value === value );
+    }
 }
