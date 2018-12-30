@@ -1,7 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
-import {BearerTokenCredential, LoginControllerService} from '../../../generated';
 import {UsernamePasswordCredential} from '../../../generated';
+
+import * as fromRoot from '../../store/reducers';
+import * as authActions from '../../store/actions/auth.actions';
+import {Store} from '@ngrx/store';
+
 
 @Component({
     selector: 'app-login',
@@ -11,7 +15,9 @@ export class LoginComponent implements OnInit {
 
     public loginForm: FormGroup;
 
-    constructor(private loginControllerService: LoginControllerService) { }
+    constructor(private store: Store<fromRoot.State>) {}
+
+    // constructor(private loginControllerService: LoginControllerService) { }
 
     public ngOnInit(): void {
         this.loginForm = new FormGroup({
@@ -26,11 +32,9 @@ export class LoginComponent implements OnInit {
             password: this.loginForm.controls['username'].value,
             useranme: this.loginForm.controls['password'].value
         };
-        this.loginControllerService.authenticate(usernamePasswordCredential).subscribe(
-            (next: BearerTokenCredential) => {
-                console.info('<login>', next);
-            }
-        );
+
+        this.store.dispatch(new authActions.LoginAction(usernamePasswordCredential));
+
     }
 
 }

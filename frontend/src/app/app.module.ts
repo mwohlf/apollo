@@ -36,10 +36,17 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {ApiModule, BASE_PATH} from '../generated';
 import {initProperties, PropertiesProvider} from './config/properties.provider';
-import {initIcons, IconsProvider} from './config/icons.provider';
+import {IconsProvider, initIcons} from './config/icons.provider';
 import {SidenavComponent} from './sidenav/sidenav.component';
 import {ThemePickerComponent} from './widget/theme-picker/theme-picker.component';
 import {ThemePickerService} from './services/theme-picker.service';
+import { StoreModule } from '@ngrx/store';
+import { reducers } from './store/reducers';
+import { AuthEffects } from './store/effects/auth.effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import {environment} from '../environments/environment';
+import { EffectsModule } from '@ngrx/effects';
+import {ThemeEffects} from './store/effects/theme.effects';
 
 
 @NgModule({
@@ -80,6 +87,10 @@ import {ThemePickerService} from './services/theme-picker.service';
         MatToolbarModule,
         MatTooltipModule,
         ReactiveFormsModule,
+        // StoreModule.forRoot(),
+        !environment.production ? StoreDevtoolsModule.instrument() : [],
+        StoreModule.forRoot(reducers),
+        EffectsModule.forRoot([AuthEffects, ThemeEffects]),
     ],
     providers: [
         IconsProvider,
@@ -97,3 +108,6 @@ import {ThemePickerService} from './services/theme-picker.service';
     bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+
+// see: https://www.intertech.com/Blog/ngrx-tutorial-actions-reducers-and-effects/

@@ -9,20 +9,20 @@ import {LoginComponent} from "./pages/login/login.component";
 
 // Routing
 const appRoutes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
-  { path: 'page1', component: Page1Component },
-  { path: 'page2', component: Page2Component },
-  { path: 'page3', component: Page3Component },
+    { path: '', redirectTo: '/login', pathMatch: 'full' },
+    { path: 'login', component: LoginComponent },
+    { path: 'page1', component: Page1Component },
+    { path: 'page2', component: Page2Component },
+    { path: 'page3', component: Page3Component },
 ];
 
 
 @NgModule({
-  imports: [RouterModule.forRoot(appRoutes,
-    { enableTracing: false } // <-- debugging purposes only
-  )],
-  exports: [RouterModule]
+    imports: [RouterModule.forRoot(
+        appRoutes,
+        { enableTracing: false } // <-- debugging purposes only
+    )],
+    exports: [RouterModule]
 })
-
 
 export class AppRoutingModule {}
