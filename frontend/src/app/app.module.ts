@@ -36,10 +36,9 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {ApiModule, BASE_PATH} from '../generated';
 import {initProperties, PropertiesProvider} from './config/properties.provider';
-import {IconsProvider, initIcons} from './config/icons.provider';
+import {initIcons, IconsProvider} from './config/icons.provider';
 import {SidenavComponent} from './sidenav/sidenav.component';
 import {ThemePickerComponent} from './widget/theme-picker/theme-picker.component';
-import {ThemePickerService} from './services/theme-picker.service';
 import { StoreModule } from '@ngrx/store';
 import { reducers } from './store/reducers';
 import { AuthEffects } from './store/effects/auth.effects';
@@ -95,7 +94,6 @@ import {ThemeEffects} from './store/effects/theme.effects';
     providers: [
         IconsProvider,
         KeycloakService,
-        ThemePickerService,
         PropertiesProvider,
 
         { provide: APP_INITIALIZER, useFactory: initProperties, deps: [PropertiesProvider], multi: true },

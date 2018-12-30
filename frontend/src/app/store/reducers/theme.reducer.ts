@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 import * as themeActions from '../actions/theme.actions';
 import {ThemeAction} from '../actions/theme.actions';
-import {ThemeChoice} from '../../services/theme-picker.service';
+import {ThemeChoice} from '../effects/theme.effects';
 
 // part of the global state that is affected by this action/reducer
 export interface State {
