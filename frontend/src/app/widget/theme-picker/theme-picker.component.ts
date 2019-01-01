@@ -24,8 +24,7 @@ export class ThemePickerComponent implements OnInit {
     public themeChoices: any = ThemeEffects.THEME_CHOICES;
 
     constructor(private overlayContainer: OverlayContainer,
-                private store: Store<fromRoot.State>
-                ) { }
+                private store: Store<fromRoot.State>) { }
 
     ngOnInit() {
     }
@@ -33,7 +32,6 @@ export class ThemePickerComponent implements OnInit {
     installTheme(value: string) {
         this.nextTheme = ThemeEffects.THEME_CHOICES.find( (themeChoice: ThemeChoice) => themeChoice.value === value );
         this.store.dispatch(new themeActions.ApplyTheme(this.nextTheme));
-        // this.themePickerService.installTheme(this.nextTheme);
     }
 
 }

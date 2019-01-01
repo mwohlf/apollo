@@ -11,6 +11,8 @@ import {Observable, of} from 'rxjs';
 //  see: https://stackoverflow.com/questions/52728922/property-pipe-does-not-exist-on-type-actionsaction-among-others
 //  see: https://medium.com/@webWhizJim/the-basics-of-ngrx-effects-effect-and-async-middleware-for-ngrx-store-in-angular-2-f25587493329
 // this is where the services are being called, actions are consumed and disoatched back to the store...
+// Simply speaking, an effect is an Observable that maps its items to actions that will then be dispatched to the store automatically.
+// In most cases, the source of an Effect is the global stream of actions:
 @Injectable()
 export class AuthEffects {
 

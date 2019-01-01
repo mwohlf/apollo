@@ -1,4 +1,3 @@
-import { Action } from '@ngrx/store';
 import * as themeActions from '../actions/theme.actions';
 import {ThemeAction} from '../actions/theme.actions';
 import {ThemeChoice} from '../effects/theme.effects';
@@ -17,18 +16,18 @@ export const initialState: State = {
 export function reducer(currentState: State = initialState, action: ThemeAction): State {
     switch (action.type) {
         case themeActions.ThemeActionTypes.APPLY: {
-            console.log("triggered APPLY theme");
+            console.log("themeActions.ThemeActionTypes.APPLY, this only triggers cleanup and install");
             return currentState;
         }
         case themeActions.ThemeActionTypes.CLEANUP: {
-            console.log("triggered CLEANUP theme");
+            console.log("themeActions.ThemeActionTypes.CLEANUP");
             return {
                 ...currentState,
                 currentTheme: undefined
             };
         }
-       case themeActions.ThemeActionTypes.INSTALL: {
-            console.log("triggered INSTALL theme: ", action.payload);
+        case themeActions.ThemeActionTypes.INSTALL: {
+            console.log("themeActions.ThemeActionTypes.INSTALL", action.payload);
             return {
                 ...currentState,
                 currentTheme: action.payload

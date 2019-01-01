@@ -46,6 +46,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import {ThemeEffects} from './store/effects/theme.effects';
+import {ToastEffects} from './store/effects/toast.effect';
+import {ToastComponent} from './widget/toast/toast.component';
 
 
 @NgModule({
@@ -59,6 +61,7 @@ import {ThemeEffects} from './store/effects/theme.effects';
         Page3Component,
         SidenavComponent,
         ThemePickerComponent,
+        ToastComponent,
     ],
     imports: [
         ApiModule,
@@ -89,7 +92,11 @@ import {ThemeEffects} from './store/effects/theme.effects';
         // StoreModule.forRoot(),
         !environment.production ? StoreDevtoolsModule.instrument() : [],
         StoreModule.forRoot(reducers),
-        EffectsModule.forRoot([AuthEffects, ThemeEffects]),
+        EffectsModule.forRoot([
+            AuthEffects,
+            ThemeEffects,
+            ToastEffects
+        ]),
     ],
     providers: [
         IconsProvider,
@@ -103,6 +110,7 @@ import {ThemeEffects} from './store/effects/theme.effects';
     schemas: [
         CUSTOM_ELEMENTS_SCHEMA,
     ],
+    entryComponents: [ToastComponent], // needed for the factory
     bootstrap: [AppComponent]
 })
 export class AppModule { }
