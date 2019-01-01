@@ -1,24 +1,30 @@
-import {Component, OnInit} from '@angular/core';
-import {OverlayContainer} from '@angular/cdk/overlay';
+import {Component, ComponentRef, ElementRef, Inject} from '@angular/core';
 import {Store} from '@ngrx/store';
 import * as fromRoot from '../../store/reducers';
+import {DismissToast} from '../../store/actions/toast.actions';
+import {Toast} from '../../store/effects/toast.effect';
+
+
+export const CURRENT_TOAST: string = 'currentToast';
 
 @Component({
     selector: 'app-toast',
-    templateUrl: './toast.component.html'
-
+    templateUrl: './toast.component.html',
+    styleUrls: ['./toast.component.scss']
 })
-export class ToastComponent implements OnInit {
+export class ToastComponent {
 
-    constructor(private overlayContainer: OverlayContainer,
+    public destroy: () => void;
+
+    constructor(public elementRef: ElementRef, // == componentRef.location
+                // public componentRef: ComponentRef<any>,
+                @Inject(CURRENT_TOAST) public toast: Toast,
                 private store: Store<fromRoot.State>) {
-
-        store.select(state => state.toasts).subscribe(toasts => {
-            console.log("<ToastComponent.select> ", toasts);
-        });
     }
 
-    ngOnInit(): void {
+    public close(): void {
+        console.log("close called");
+        this.store.dispatch(new DismissToast(this));
     }
 
 }

@@ -1,5 +1,6 @@
 import {Action} from '@ngrx/store';
 import {Toast} from '../effects/toast.effect';
+import {ToastComponent} from '../../widget/toast/toast.component';
 
 
 export enum ToastActionTypes {
@@ -16,7 +17,7 @@ export class CreateToast implements Action {
 // remove old theme
 export class DismissToast implements Action {
     readonly type = ToastActionTypes.DISMISS;
-    constructor(public payload: Toast) {}
+    constructor(public payload: ToastComponent) {}
 }
 
 
