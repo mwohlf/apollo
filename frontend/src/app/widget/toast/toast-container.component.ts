@@ -1,11 +1,5 @@
-import {Component, ComponentRef, ElementRef, Inject} from '@angular/core';
-import {Store} from '@ngrx/store';
-import * as fromRoot from '../../store/reducers';
-import {DismissToast} from '../../store/actions/toast.actions';
+import {Component} from '@angular/core';
 import {Toast} from '../../store/effects/toast.effect';
-
-
-export const CURRENT_TOAST: string = 'currentToast';
 
 @Component({
     selector: 'app-toast-container',
@@ -14,7 +8,12 @@ export const CURRENT_TOAST: string = 'currentToast';
 })
 export class ToastContainerComponent {
 
+    private toasts: Toast[];
+
     constructor() {
     }
 
+    setToasts(toasts: Toast[]): void {
+        this.toasts = toasts;
+    }
 }

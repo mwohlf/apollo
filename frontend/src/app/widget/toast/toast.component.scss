@@ -1,16 +1,11 @@
 .toast-component {
-  margin: 0.2rem;
+  margin-bottom: 0.5rem;
   border-radius: 0.5rem;
-  pointer-events: auto;
-  background-color: blue;
-  border: blue 1px;
-  width: 25em;
-  position: fixed;
-  right: 0rem;
-
+  background-color: yellow;
+  padding: 0.5em;
 
   .toast-content {
-    background-color: wheat;
+    // background-color: wheat;
   }
 
 }

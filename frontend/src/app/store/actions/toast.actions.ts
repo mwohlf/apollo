@@ -17,7 +17,7 @@ export class CreateToast implements Action {
 // remove old theme
 export class DismissToast implements Action {
     readonly type = ToastActionTypes.DISMISS;
-    constructor(public payload: ToastComponent) {}
+    constructor(public payload: Toast) {}
 }
 
 

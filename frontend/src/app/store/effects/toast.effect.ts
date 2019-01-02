@@ -1,12 +1,22 @@
-import {ApplicationRef, ComponentFactoryResolver, EmbeddedViewRef, Injectable, Injector, RendererFactory2} from '@angular/core';
+import {
+    ApplicationRef,
+    ComponentFactoryResolver,
+    ComponentRef,
+    EmbeddedViewRef,
+    Injectable,
+    Injector,
+    RendererFactory2
+} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable} from 'rxjs';
 import {Store} from '@ngrx/store';
 import * as fromRoot from '../reducers';
+import * as fromToast from '../reducers//toast.reducer';
 import {OverlayContainer} from '@angular/cdk/overlay';
-import {ToastActions, ToastActionTypes} from '../actions/toast.actions';
-import {map, switchMap} from 'rxjs/operators';
-import {CURRENT_TOAST, ToastComponent} from '../../widget/toast/toast.component';
+import {CreateToast, DismissToast, ToastActions, ToastActionTypes} from '../actions/toast.actions';
+import {switchMap, withLatestFrom} from 'rxjs/operators';
+import {ToastContainerComponent} from '../../widget/toast/toast-container.component';
+import {container} from '@angular/core/src/render3';
 
 export interface Toast {
     severity: Severity;
@@ -26,9 +36,7 @@ export enum Severity  {
 @Injectable()
 export class ToastEffects {
 
-    private containerElement: HTMLElement;
-
-    private toastContainer: HTMLElement;
+    private toastContainerComponentRef: ComponentRef<ToastContainerComponent> | undefined = undefined;
 
     constructor(private actions: Actions<ToastActions>,
                 private overlayContainer: OverlayContainer,
@@ -37,39 +45,16 @@ export class ToastEffects {
                 private appRef: ApplicationRef,
                 private injector: Injector,
                 private rendererFactory: RendererFactory2) {
-        console.log("<constructor> ", store);
-        this.containerElement = this.overlayContainer.getContainerElement();
     }
 
     @Effect()
     createToast: Observable<ToastActions> = this.actions.pipe(
         ofType(ToastActionTypes.CREATE),
-        map(action => action.payload),
-        switchMap((toast: Toast) => {
-            const toastInjector = Injector.create({
-                providers: [{
-                    provide: CURRENT_TOAST,
-                    useValue: toast
-                }],
-                parent: this.injector,
-                name: 'toast-injector'
-            });
-            // 1. create the toast component
-            const factory = this.componentFactoryResolver.resolveComponentFactory(ToastComponent);
-            const toastComponentRef = factory.create(toastInjector); // in app.module.ts : entryComponents: [ToastComponent], to enable a factory...
-            // 2. Attach component to the appRef so that it's inside the ng component tree
-            this.appRef.attachView(toastComponentRef.hostView);
-            // 3. Get DOM element from component
-            const domElem = (toastComponentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
-            // 4. Append DOM element to the body
-            const renderer2 = this.rendererFactory.createRenderer(this.containerElement, null);
-            renderer2.appendChild(this.containerElement, domElem);
-            // 5. append a cleanup callback:
-            const toastComponent = toastComponentRef.instance;
-            toastComponentRef.instance.destroy = () => {
-                renderer2.removeChild(this.containerElement, toastComponent.elementRef.nativeElement);
-                toastComponentRef.destroy();
-            };
+        withLatestFrom(this.store.select(state => state.toasts)),
+        switchMap(([createToastAction, toasts]: [CreateToast, fromToast.State]) => {
+            console.log("toasts: " + toasts);
+            const toastContainer = this.findToastContainer();
+            toastContainer.setToasts(toasts.toasts);
             return [];
         })
     );
@@ -77,11 +62,42 @@ export class ToastEffects {
     @Effect()
     dismissToast: Observable<ToastActions> = this.actions.pipe(
         ofType(ToastActionTypes.DISMISS),
-        map(action => action.payload),
-        switchMap((toastComponent: ToastComponent) => {
-            toastComponent.destroy();
+        withLatestFrom(this.store.select(state => state.toasts)),
+        switchMap(([dismissToastAction, toasts]: [DismissToast, fromToast.State]) => {
+            console.log("toasts: ", toasts);
+            if (toasts.toasts.length === 0) {
+                this.destroyToastContainer();
+            } else {
+                const toastContainer = this.findToastContainer();
+                toastContainer.setToasts(toasts.toasts);
+            }
             return [];
         })
     );
+
+    private findToastContainer(): ToastContainerComponent {
+        if (this.toastContainerComponentRef === undefined) {
+            // 1. create the toast component
+            const factory = this.componentFactoryResolver.resolveComponentFactory(ToastContainerComponent);
+            this.toastContainerComponentRef = factory.create(this.injector); // in app.module.ts : entryComponents: [ToastComponent], to enable a factory...
+            // 2. Attach component to the appRef so that it's inside the ng component tree
+            this.appRef.attachView(this.toastContainerComponentRef.hostView);
+            // 3. Get DOM element from component
+            const domElem = (this.toastContainerComponentRef.hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
+            // 4. Append DOM element to the body
+            const renderer2 = this.rendererFactory.createRenderer(this.overlayContainer.getContainerElement(), null);
+            renderer2.appendChild(this.overlayContainer.getContainerElement(), domElem);
+        }
+        return this.toastContainerComponentRef.instance
+    }
+
+    private destroyToastContainer(): void {
+        if (this.toastContainerComponentRef !== undefined) {
+            const renderer2 = this.rendererFactory.createRenderer(this.overlayContainer.getContainerElement(), null);
+            renderer2.removeChild(this.overlayContainer.getContainerElement(), this.toastContainerComponentRef.location.nativeElement);
+            this.toastContainerComponentRef.destroy();
+            this.toastContainerComponentRef = undefined;
+        }
+    }
 
 }

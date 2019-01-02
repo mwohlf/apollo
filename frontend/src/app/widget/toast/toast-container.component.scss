@@ -1,13 +1,11 @@
 .toast-container {
-  margin: 0.2rem;
-  border-radius: 0.5rem;
   pointer-events: auto;
-  background-color: blue;
+  margin: 0.5rem;
+  border-radius: 0.5rem;
   border: blue 1px;
   width: 25em;
   position: fixed;
-  right: 0rem;
-
+  right: 0;
 }
 
 

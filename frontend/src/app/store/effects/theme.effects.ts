@@ -60,7 +60,6 @@ export class ThemeEffects {
         ofType(ThemeActionTypes.CLEANUP),
         // read the payload needed to login
         map(action => action.payload),
-        //
         switchMap((themeChoice: ThemeChoice) => {
             console.log("<effect> cleanup theme: ", themeChoice);
             if (themeChoice) {
@@ -77,7 +76,6 @@ export class ThemeEffects {
         ofType(ThemeActionTypes.INSTALL),
         // read the payload needed to login
         map(action => action.payload),
-        //
         switchMap((themeChoice: ThemeChoice) => {
             console.log("<effect> install theme: ", themeChoice);
             // side effects

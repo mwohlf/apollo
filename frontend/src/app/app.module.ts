@@ -36,18 +36,19 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {ApiModule, BASE_PATH} from '../generated';
 import {initProperties, PropertiesProvider} from './config/properties.provider';
-import {initIcons, IconsProvider} from './config/icons.provider';
+import {IconsProvider, initIcons} from './config/icons.provider';
 import {SidenavComponent} from './sidenav/sidenav.component';
 import {ThemePickerComponent} from './widget/theme-picker/theme-picker.component';
-import { StoreModule } from '@ngrx/store';
-import { reducers } from './store/reducers';
-import { AuthEffects } from './store/effects/auth.effects';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import {StoreModule} from '@ngrx/store';
+import {reducers} from './store/reducers';
+import {AuthEffects} from './store/effects/auth.effects';
+import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {environment} from '../environments/environment';
-import { EffectsModule } from '@ngrx/effects';
+import {EffectsModule} from '@ngrx/effects';
 import {ThemeEffects} from './store/effects/theme.effects';
 import {ToastEffects} from './store/effects/toast.effect';
 import {ToastComponent} from './widget/toast/toast.component';
+import {ToastContainerComponent} from './widget/toast/toast-container.component';
 
 
 @NgModule({
@@ -62,6 +63,7 @@ import {ToastComponent} from './widget/toast/toast.component';
         SidenavComponent,
         ThemePickerComponent,
         ToastComponent,
+        ToastContainerComponent,
     ],
     imports: [
         ApiModule,
@@ -110,7 +112,7 @@ import {ToastComponent} from './widget/toast/toast.component';
     schemas: [
         CUSTOM_ELEMENTS_SCHEMA,
     ],
-    entryComponents: [ToastComponent], // needed for the factory
+    entryComponents: [ToastContainerComponent], // needed for the factory
     bootstrap: [AppComponent]
 })
 export class AppModule { }

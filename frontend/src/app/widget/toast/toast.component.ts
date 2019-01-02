@@ -1,4 +1,4 @@
-import {Component, ComponentRef, ElementRef, Inject} from '@angular/core';
+import {Component, ComponentRef, ElementRef, Inject, Input} from '@angular/core';
 import {Store} from '@ngrx/store';
 import * as fromRoot from '../../store/reducers';
 import {DismissToast} from '../../store/actions/toast.actions';
@@ -14,17 +14,14 @@ export const CURRENT_TOAST: string = 'currentToast';
 })
 export class ToastComponent {
 
-    public destroy: () => void;
+    @Input()
+    toast: Toast;
 
-    constructor(public elementRef: ElementRef, // == componentRef.location
-                // public componentRef: ComponentRef<any>,
-                @Inject(CURRENT_TOAST) public toast: Toast,
-                private store: Store<fromRoot.State>) {
-    }
+    constructor(private store: Store<fromRoot.State>) {}
 
     public close(): void {
         console.log("close called");
-        this.store.dispatch(new DismissToast(this));
+        this.store.dispatch(new DismissToast(this.toast));
     }
 
 }

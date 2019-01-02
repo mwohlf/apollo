@@ -28,7 +28,7 @@ export function reducer(currentState: State = initialState, action: ToastActions
         case toastActions.ToastActionTypes.DISMISS: {
             console.log("toastActions.ToastActionTypes.DISMISS");
             const patchedToasts = currentState.toasts.slice();
-            const index = patchedToasts.indexOf(action.payload.toast, 0);
+            const index = patchedToasts.indexOf(action.payload, 0);
             if (index > -1) {
                 patchedToasts.splice(index, 1);
             }
