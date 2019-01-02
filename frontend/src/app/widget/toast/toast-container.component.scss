@@ -1,4 +1,4 @@
-.toast-component {
+.toast-container {
   margin: 0.2rem;
   border-radius: 0.5rem;
   pointer-events: auto;
@@ -7,11 +7,6 @@
   width: 25em;
   position: fixed;
   right: 0rem;
-
-
-  .toast-content {
-    background-color: wheat;
-  }
 
 }
 

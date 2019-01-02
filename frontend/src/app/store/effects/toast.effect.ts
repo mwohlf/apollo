@@ -28,6 +28,8 @@ export class ToastEffects {
 
     private containerElement: HTMLElement;
 
+    private toastContainer: HTMLElement;
+
     constructor(private actions: Actions<ToastActions>,
                 private overlayContainer: OverlayContainer,
                 private store: Store<fromRoot.State>,
