@@ -5,7 +5,7 @@ import {DismissToast} from '../../store/actions/toast.actions';
 import {Toast} from '../../store/effects/toast.effect';
 
 
-export const CURRENT_TOAST: string = 'currentToast';
+// see: https://tburleson-layouts-demos.firebaseapp.com/#/docs
 
 @Component({
     selector: 'app-toast',

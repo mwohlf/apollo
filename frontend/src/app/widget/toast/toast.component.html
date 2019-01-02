@@ -1,7 +1,7 @@
-<div class="toast-component">
-  <mat-icon style="cursor: pointer;" (click)="close()">close</mat-icon>
+<div class="toast-component" fxLayout="column">
+  <mat-icon fxFlexAlign="end" style="cursor: pointer;" (click)="close()">close</mat-icon>
 
-  <div class="toast-content">
+  <div fxFlexAlign="start" class="toast-content">
     This is a toast message
   </div>
 </div>

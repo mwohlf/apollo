@@ -13,7 +13,7 @@ export class ToastContainerComponent {
     constructor() {
     }
 
-    setToasts(toasts: Toast[]): void {
+    public setToasts(toasts: Toast[]): void {
         this.toasts = toasts;
     }
 }
