@@ -1,5 +1,5 @@
 
-<div fxLayout="row" fxLayoutAlign="center center">
+<div fxLayout="column" fxLayoutAlign="center center">
 
 <mat-card [formGroup]="loginForm">
   <mat-card-title>
@@ -13,7 +13,7 @@
       <input formControlName="password" matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'">
       <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
     </mat-form-field>
-    <button mat-button class="login-button" (click)="login()">
+    <button mat-button class="login-button" (click)="login()" [disabled]="!loginForm.valid">
       <mat-icon>input</mat-icon> Login
     </button>
   </mat-card-content>

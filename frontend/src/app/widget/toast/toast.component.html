@@ -2,6 +2,7 @@
   <mat-icon fxFlexAlign="end" style="cursor: pointer;" (click)="close()">close</mat-icon>
 
   <div fxFlexAlign="start" class="toast-content">
-    This is a toast message
+    <strong>{{toast.title}}</strong><br/>
+    {{toast.content}}
   </div>
 </div>

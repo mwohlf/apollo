@@ -13,7 +13,7 @@ import {Store} from '@ngrx/store';
 import * as fromRoot from '../reducers';
 import * as fromToast from '../reducers//toast.reducer';
 import {OverlayContainer} from '@angular/cdk/overlay';
-import {CreateToast, DismissToast, ToastActions, ToastActionTypes} from '../actions/toast.actions';
+import {CreateToastAction, DismissToastAction, ToastActions, ToastActionTypes} from '../actions/toast.actions';
 import {switchMap, withLatestFrom} from 'rxjs/operators';
 import {ToastContainerComponent} from '../../widget/toast/toast-container.component';
 import {container} from '@angular/core/src/render3';
@@ -51,7 +51,7 @@ export class ToastEffects {
     createToast: Observable<ToastActions> = this.actions.pipe(
         ofType(ToastActionTypes.CREATE),
         withLatestFrom(this.store.select(state => state.toasts)),
-        switchMap(([createToastAction, toasts]: [CreateToast, fromToast.State]) => {
+        switchMap(([createToastAction, toasts]: [CreateToastAction, fromToast.State]) => {
             console.log("toasts: " + toasts);
             const toastContainer = this.findToastContainer();
             toastContainer.setToasts(toasts.toasts);
@@ -63,7 +63,7 @@ export class ToastEffects {
     dismissToast: Observable<ToastActions> = this.actions.pipe(
         ofType(ToastActionTypes.DISMISS),
         withLatestFrom(this.store.select(state => state.toasts)),
-        switchMap(([dismissToastAction, toasts]: [DismissToast, fromToast.State]) => {
+        switchMap(([dismissToastAction, toasts]: [DismissToastAction, fromToast.State]) => {
             console.log("toasts: ", toasts);
             if (toasts.toasts.length === 0) {
                 this.destroyToastContainer();

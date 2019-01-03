@@ -1,9 +1,11 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-import {LoginControllerService, UsernamePasswordCredential} from '../../../generated';
+import {BearerTokenCredential, LoginControllerService, UsernamePasswordCredential} from '../../../generated';
 import {AuthAction, AuthActionTypes, LoginFailedAction, LoginSuccessAction} from '../actions/auth.actions';
 import {catchError, map, switchMap} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
+import {CreateToastAction} from '../actions/toast.actions';
+import {Severity} from './toast.effect';
 
 // effects
 // see: https://medium.com/frontend-fun/angular-ngrx-a-clean-and-clear-introduction-4ed61c89c1fc
@@ -20,7 +22,7 @@ export class AuthEffects {
                 private loginControllerService: LoginControllerService) {}
 
     @Effect()
-    initializeLogin: Observable<AuthAction> = this.actions.pipe(   //
+    loginAction: Observable<AuthAction> = this.actions.pipe(   //
         // only interested in the login action
         ofType(AuthActionTypes.LOGIN),
         // read the payload needed to login
@@ -35,6 +37,32 @@ export class AuthEffects {
                 // failed
                 catchError(error => of(new LoginFailedAction(error)))
             );
+        })
+    );
+
+    @Effect()
+    loginSuccess: Observable<AuthAction> = this.actions.pipe(   //
+        // only interested in the login action
+        ofType(AuthActionTypes.LOGIN_SUCCESS),
+        map(action => action.payload),
+        switchMap((bearerTokenCredential: BearerTokenCredential) => {
+            console.log("<effect> login success ", bearerTokenCredential);
+            return [];
+        })
+    );
+
+    @Effect()
+    loginFailed: Observable<CreateToastAction> = this.actions.pipe(   //
+        // only interested in the login action
+        ofType(AuthActionTypes.LOGIN_FAILED),
+        map(action => action.payload),
+        switchMap((error: any) => {
+            console.log("<effect> login fail ", error);
+            return of(new CreateToastAction({
+                severity: Severity.ERROR,
+                title: 'login failed',
+                content: 'try again'
+            }))
         })
     );
 

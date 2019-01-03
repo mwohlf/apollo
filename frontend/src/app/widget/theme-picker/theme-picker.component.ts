@@ -31,7 +31,7 @@ export class ThemePickerComponent implements OnInit {
 
     installTheme(value: string) {
         this.nextTheme = ThemeEffects.THEME_CHOICES.find( (themeChoice: ThemeChoice) => themeChoice.value === value );
-        this.store.dispatch(new themeActions.ApplyTheme(this.nextTheme));
+        this.store.dispatch(new themeActions.ApplyThemeAction(this.nextTheme));
     }
 
 }

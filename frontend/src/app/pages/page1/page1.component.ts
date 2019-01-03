@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import * as fromRoot from '../../store/reducers';
-import {CreateToast} from '../../store/actions/toast.actions';
+import {CreateToastAction} from '../../store/actions/toast.actions';
 import {Severity} from '../../store/effects/toast.effect';
 
 @Component({
@@ -17,7 +17,7 @@ export class Page1Component implements OnInit {
     }
 
     public alert() {
-        this.store.dispatch(new CreateToast({
+        this.store.dispatch(new CreateToastAction({
             severity: Severity.INFO,
             title: "info",
             content: "hello world"

@@ -1,6 +1,5 @@
 import {Action} from '@ngrx/store';
 import {Toast} from '../effects/toast.effect';
-import {ToastComponent} from '../../widget/toast/toast.component';
 
 
 export enum ToastActionTypes {
@@ -9,18 +8,18 @@ export enum ToastActionTypes {
 }
 
 // apply a new theme, means removing the old one and installing a new one
-export class CreateToast implements Action {
+export class CreateToastAction implements Action {
     readonly type = ToastActionTypes.CREATE;
     constructor(public payload: Toast) {}
 }
 
 // remove old theme
-export class DismissToast implements Action {
+export class DismissToastAction implements Action {
     readonly type = ToastActionTypes.DISMISS;
     constructor(public payload: Toast) {}
 }
 
 
-export type ToastActions = CreateToast
-    | DismissToast
+export type ToastActions = CreateToastAction
+    | DismissToastAction
     ;

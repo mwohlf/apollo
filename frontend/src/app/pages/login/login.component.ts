@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {UsernamePasswordCredential} from '../../../generated';
 
 import * as fromRoot from '../../store/reducers';
@@ -21,9 +21,9 @@ export class LoginComponent implements OnInit {
 
     public ngOnInit(): void {
         this.loginForm = new FormGroup({
-            username: new FormControl(''),
-            password: new FormControl(''),
-        });
+            username: new FormControl('', [Validators.required]),
+            password: new FormControl('', [Validators.required]),
+        }, );
     }
 
     public login(): void {
