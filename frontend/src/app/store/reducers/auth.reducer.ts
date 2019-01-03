@@ -1,5 +1,5 @@
 import * as authActions from '../actions/auth.actions';
-import {AuthAction} from '../actions/auth.actions';
+import {AuthActions} from '../actions/auth.actions';
 import {BearerTokenCredential, UsernamePasswordCredential} from '../../../generated';
 
 // part of the global state that is affected by this action/reducer
@@ -15,7 +15,7 @@ export const initialState: State = {
 
 
 // reducer transform old state into new state via actions
-export function reducer(currentState: State = initialState, action: AuthAction): State {
+export function reducer(currentState: State = initialState, action: AuthActions): State {
     switch (action.type) {
         case authActions.AuthActionTypes.LOGIN: {
             console.log("triggered login action");

@@ -27,7 +27,7 @@ export class InstallThemeAction implements Action {
 }
 
 
-export type ThemeAction = ApplyThemeAction
+export type ThemeActions = ApplyThemeAction
     | CleanupThemeAction
     | InstallThemeAction
     ;

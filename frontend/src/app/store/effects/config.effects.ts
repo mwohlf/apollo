@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-import {BearerTokenCredential, LoginControllerService, UsernamePasswordCredential} from '../../../generated';
-import {AuthActions, AuthActionTypes, LoginFailedAction, LoginSuccessAction} from '../actions/auth.actions';
+import {ApplicationProperties, ConfigControllerService, UsernamePasswordCredential} from '../../../generated';
 import {catchError, map, switchMap} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
+import {ConfigActions, ConfigActionTypes, ConfigFailedAction, ConfigSuccessAction} from '../actions/config.actions';
 import {CreateToastAction, ToastActions} from '../actions/toast.actions';
 import {Severity} from './toast.effect';
 
@@ -18,49 +18,49 @@ import {Severity} from './toast.effect';
 @Injectable()
 export class AuthEffects {
 
-    constructor(private actions: Actions<AuthActions>,
-                private loginControllerService: LoginControllerService) {}
+    constructor(private actions: Actions<ConfigActions>,
+                private configControllerService: ConfigControllerService) {}
 
     @Effect()
-    loginAction: Observable<AuthActions> = this.actions.pipe(   //
+    loadConfigAction: Observable<ConfigActions> = this.actions.pipe(   //
         // only interested in the login action
-        ofType(AuthActionTypes.LOGIN),
+        ofType(ConfigActionTypes.CONFIG_LOAD),
         // read the payload needed to login
         map(action => action.payload),
         //
         switchMap((usernamePasswordCredential: UsernamePasswordCredential) => {
             console.log("<effect> login with: ", usernamePasswordCredential);
             // convert into another action ...
-            return this.loginControllerService.authenticate(usernamePasswordCredential).pipe(
+            return this.configControllerService.getApplicationProperties().pipe(
                 // got a bearer token
-                map(customers => new LoginSuccessAction(customers)),
+                map(config => new ConfigSuccessAction(config)),
                 // failed
-                catchError(error => of(new LoginFailedAction(error)))
+                catchError(error => of(new ConfigFailedAction(error)))
             );
         })
     );
 
     @Effect()
-    loginSuccess: Observable<AuthActions> = this.actions.pipe(   //
+    configSuccessAction: Observable<ConfigActions> = this.actions.pipe(   //
         // only interested in the login action
-        ofType(AuthActionTypes.LOGIN_SUCCESS),
+        ofType(ConfigActionTypes.CONFIG_LOAD_SUCCESS),
         map(action => action.payload),
-        switchMap((bearerTokenCredential: BearerTokenCredential) => {
-            console.log("<effect> login success ", bearerTokenCredential);
+        switchMap((applicationProperties: ApplicationProperties) => {
+            console.log("<effect> config success ", applicationProperties);
             return [];
         })
     );
 
     @Effect()
-    loginFailed: Observable<ToastActions> = this.actions.pipe(   //
+    configFailedAction: Observable<ToastActions> = this.actions.pipe(   //
         // only interested in the login action
-        ofType(AuthActionTypes.LOGIN_FAILED),
+        ofType(ConfigActionTypes.CONFIG_LOAD_FAILED),
         map(action => action.payload),
         switchMap((error: any) => {
-            console.log("<effect> login fail ", error);
+            console.log("<effect> login error ", error);
             return of(new CreateToastAction({
                 severity: Severity.ERROR,
-                title: 'login failed',
+                title: 'read config failed',
                 content: 'try again'
             }))
         })

@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {map, switchMap, withLatestFrom} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
-import {ApplyThemeAction, CleanupThemeAction, InstallThemeAction, ThemeAction, ThemeActionTypes} from '../actions/theme.actions';
+import {ApplyThemeAction, CleanupThemeAction, InstallThemeAction, ThemeActions, ThemeActionTypes} from '../actions/theme.actions';
 import {Store} from '@ngrx/store';
 import * as fromRoot from '../reducers';
 import {State} from '../reducers/theme.reducer';
@@ -29,7 +29,7 @@ export class ThemeEffects {
     private overlay: HTMLElement;
 
 
-    constructor(private actions: Actions<ThemeAction>,
+    constructor(private actions: Actions<ThemeActions>,
                 private overlayContainer: OverlayContainer,
                 private store: Store<fromRoot.State>) {
         this.body = document.getElementsByTagName('body')[0];
@@ -38,7 +38,7 @@ export class ThemeEffects {
     }
 
     @Effect()
-    applyTheme: Observable<ThemeAction> = this.actions.pipe(
+    applyTheme: Observable<ThemeActions> = this.actions.pipe(
         // only interested in the login action
         ofType(ThemeActionTypes.APPLY),
         // read the payload needed to login
@@ -53,7 +53,7 @@ export class ThemeEffects {
     );
 
     @Effect()
-    cleanupTheme: Observable<ThemeAction> = this.actions.pipe(   // : Observable<Action>
+    cleanupTheme: Observable<ThemeActions> = this.actions.pipe(   // : Observable<Action>
         // only interested in the login action
         ofType(ThemeActionTypes.CLEANUP),
         // read the payload needed to login
@@ -68,7 +68,7 @@ export class ThemeEffects {
     );
 
     @Effect()
-    installTheme: Observable<ThemeAction> = this.actions.pipe(   // : Observable<Action>
+    installTheme: Observable<ThemeActions> = this.actions.pipe(   // : Observable<Action>
         // only interested in the login action
         ofType(ThemeActionTypes.INSTALL),
         // read the payload needed to login

@@ -1,5 +1,5 @@
 import * as themeActions from '../actions/theme.actions';
-import {ThemeAction} from '../actions/theme.actions';
+import {ThemeActions} from '../actions/theme.actions';
 import {ThemeChoice} from '../effects/theme.effects';
 
 // part of the global state that is affected by this action/reducer
@@ -13,7 +13,7 @@ export const initialState: State = {
 
 
 // reducer transform old state into new state via actions
-export function reducer(currentState: State = initialState, action: ThemeAction): State {
+export function reducer(currentState: State = initialState, action: ThemeActions): State {
     switch (action.type) {
         case themeActions.ThemeActionTypes.APPLY: {
             console.log("themeActions.ThemeActionTypes.APPLY, this only triggers cleanup and install");
