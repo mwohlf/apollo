@@ -47,6 +47,7 @@ public class LoginController {
         linkedMultiValueMap.add("password", authentication.getPassword());
         linkedMultiValueMap.add("grant_type", GRANT_TYPE_PASSWORD);
 
+        log.info("<authenticate> client.getSecret() " + client.getSecret());
         log.info("<authenticate> keycloakProperties.getServerUrl() " + keycloakProperties.getServerUrl());
         // final String uri = tokenEndpoint(client);
         final String uri = tokenEndpoint(client);
