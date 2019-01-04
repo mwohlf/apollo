@@ -24,8 +24,9 @@ dependencyManagement {
 
 
 dependencies {
-    
-    compile project(path: ':frontend', configuration: 'webjar')
+
+    // TODO: remove this dependencies:
+    implementation        project(path: ':frontend', configuration: 'webjar')
     implementation        'org.webjars:webjars-locator-core'
 
     // spring
@@ -69,13 +70,20 @@ springBoot {
     mainClassName = 'net.wohlfart.apollo.BackendServerApplication'
 }
 
+build.doFirst {
+    generateSwaggerDocumentation
+}
+
 clean.doFirst {
     delete "${projectDir}/out" // from idea
 }
 
 task MrProper {
     dependsOn(clean)
-    delete "${projectDir}/.gradle"  // might not work on windows
+    doLast {
+        delete "${rootProject.ext.apiDefinitionPath}"
+        delete "${projectDir}/.gradle"  // might not work on windows
+    }
 }
 
 // for docker support see: https://spring.io/guides/gs/spring-boot-docker/  

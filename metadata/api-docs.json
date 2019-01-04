@@ -72,18 +72,18 @@
     },
     "BearerTokenCredential" : {
       "type" : "object",
-      "required" : [ "value" ],
+      "required" : [ "bearerToken" ],
       "properties" : {
-        "value" : {
+        "bearerToken" : {
           "type" : "string"
         }
       }
     },
     "UsernamePasswordCredential" : {
       "type" : "object",
-      "required" : [ "password", "useranme" ],
+      "required" : [ "password", "username" ],
       "properties" : {
-        "useranme" : {
+        "username" : {
           "type" : "string"
         },
         "password" : {

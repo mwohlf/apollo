@@ -54,7 +54,6 @@ task yarnRunBuild(type: YarnTask) {
     args = ['run', 'build']   // compiles into build/dist. the output dir in package.json for "ng build"
 }
 
-
 configurations {
     webjar
 }

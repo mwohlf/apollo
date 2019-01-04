@@ -43,7 +43,7 @@ public class LoginController {
         LinkedMultiValueMap<String, String> linkedMultiValueMap = new LinkedMultiValueMap<>();
         linkedMultiValueMap.add("client_id", client.getClientId());
         linkedMultiValueMap.add("client_secret", client.getSecret());
-        linkedMultiValueMap.add("username", authentication.getUseranme());
+        linkedMultiValueMap.add("username", authentication.getUsername());
         linkedMultiValueMap.add("password", authentication.getPassword());
         linkedMultiValueMap.add("grant_type", GRANT_TYPE_PASSWORD);
 

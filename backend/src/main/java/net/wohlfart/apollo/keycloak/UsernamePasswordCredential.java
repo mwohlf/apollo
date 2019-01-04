@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 public class UsernamePasswordCredential {
 
     @NotNull
-    String useranme;
+    String username;
 
     @NotNull
     String password;

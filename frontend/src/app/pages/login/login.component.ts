@@ -28,8 +28,8 @@ export class LoginComponent implements OnInit {
 
     public login(): void {
         const usernamePasswordCredential: UsernamePasswordCredential = {
-            password: this.loginForm.controls['password'].value,
-            useranme: this.loginForm.controls['useranme'].value
+            username: this.loginForm.controls['username'].value,
+            password: this.loginForm.controls['password'].value
         };
         console.log('<login> triggered for usernamePasswordCredential ', usernamePasswordCredential);
         this.store.dispatch(new authActions.LoginAction(usernamePasswordCredential));
