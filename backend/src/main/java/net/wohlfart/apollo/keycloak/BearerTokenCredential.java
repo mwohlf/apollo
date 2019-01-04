@@ -12,6 +12,6 @@ import javax.validation.constraints.NotNull;
 public class BearerTokenCredential {
 
     @NotNull
-    String value;
+    String bearerToken;
 
 }

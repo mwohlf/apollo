@@ -23,9 +23,24 @@ spring:
       ddlAuto: create-drop
     show-sql: false
 
+
+authentication:
+  # server-url: http://localhost:8081/auth
+  server-url: https://mwohlfkeycloak.westeurope.azurecontainer.io/auth
+  admin:
+    realm: master
+    username: admin
+    password: s3cr37
+    client-id: admin-cli
+  client:
+    realm: apollo
+    client-id: apollo-backend
+    secret: 89a01e7e-a27f-4ba7-9419-ab46f0bde241
+
+
 logging:
   pattern:
     console: "%d %-5level [%thread] %logger{0} : %msg%n"
   level:
-#    root: info
-    root: debug
+    root: info
+#    root: debug

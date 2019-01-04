@@ -1,6 +1,7 @@
 
 authentication:
-  server-url: http://localhost:8081/auth
+  # server-url: http://localhost:8081/auth
+  server-url: https://mwohlfkeycloak.westeurope.azurecontainer.io/auth
   admin:
     realm: master
     username: admin
@@ -9,3 +10,5 @@ authentication:
   client:
     realm: apollo
     client-id: apollo-backend
+    secret: 89a01e7e-a27f-4ba7-9419-ab46f0bde241
+
