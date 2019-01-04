@@ -16,17 +16,14 @@ export const initialState: State = {
 export function reducer(currentState: State = initialState, action: ToastActions): State {
     switch (action.type) {
         case toastActions.ToastActionTypes.CREATE: {
-            console.log("toastActions.ToastActionTypes.CREATE ", action.payload);
             const patchedToasts = currentState.toasts.slice();
             patchedToasts.push(action.payload);
-            console.log("patchedToasts", patchedToasts);
             return {
                 ...currentState,
                 toasts: patchedToasts
             };
         }
         case toastActions.ToastActionTypes.DISMISS: {
-            console.log("toastActions.ToastActionTypes.DISMISS");
             const patchedToasts = currentState.toasts.slice();
             const index = patchedToasts.indexOf(action.payload, 0);
             if (index > -1) {

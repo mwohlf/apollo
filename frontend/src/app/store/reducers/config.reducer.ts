@@ -16,22 +16,19 @@ export const initialState: State = {
 export function reducer(currentState: State = initialState, action: ConfigActions): State {
     switch (action.type) {
         case configActions.ConfigActionTypes.LOAD: {
-            console.log("triggered login action");
             return currentState;
         }
         case configActions.ConfigActionTypes.LOAD_SUCCESS: {
-            console.log("triggered login failed action");
             return {
                 ...currentState,
                 applicationProperties: action.payload
             };
         }
         case configActions.ConfigActionTypes.LOAD_FAILED: {
-            console.log("triggered login success action");
             return {
                 ...currentState,
                 applicationProperties: undefined
-            }
+            };
         }
         default:
             return currentState;

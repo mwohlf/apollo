@@ -1,12 +1,11 @@
 import {Injectable} from '@angular/core';
-import {Actions, Effect, ofType} from '@ngrx/effects';
-import {ApplicationProperties, ConfigControllerService, UsernamePasswordCredential} from '../../../generated';
+import {Actions, Effect, ofType, ROOT_EFFECTS_INIT} from '@ngrx/effects';
+import {ApplicationProperties, ConfigControllerService} from '../../../generated';
 import {catchError, map, switchMap} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
 import {ConfigActions, ConfigActionTypes, ConfigFailedAction, ConfigLoadAction, ConfigSuccessAction} from '../actions/config.actions';
 import {CreateToastAction, ToastActions} from '../actions/toast.actions';
 import {Severity} from './toast.effect';
-import { ROOT_EFFECTS_INIT } from '@ngrx/effects'
 
 // effects
 // see: https://medium.com/frontend-fun/angular-ngrx-a-clean-and-clear-introduction-4ed61c89c1fc
@@ -32,7 +31,7 @@ export class ConfigEffects {
     loadConfigAction: Observable<ConfigActions> = this.actions.pipe(   //
         ofType(ConfigActionTypes.LOAD),
         switchMap(() => {
-            console.log("<effect> load config: ");
+            console.log('<effect> load config ');
             // convert into another action ...
             return this.configControllerService.getApplicationProperties().pipe(
                 // got a bearer token
@@ -49,7 +48,7 @@ export class ConfigEffects {
         ofType(ConfigActionTypes.LOAD_SUCCESS),
         map(action => action.payload),
         switchMap((applicationProperties: ApplicationProperties) => {
-            console.log("<effect> config success ", applicationProperties);
+            console.log('<effect> config success ', applicationProperties);
             return [];
         })
     );
@@ -60,12 +59,12 @@ export class ConfigEffects {
         ofType(ConfigActionTypes.LOAD_FAILED),
         map(action => action.payload),
         switchMap((error: any) => {
-            console.log("<effect> login error ", error);
+            console.log('<effect> config fail ', error);
             return of(new CreateToastAction({
                 severity: Severity.ERROR,
                 title: 'read config failed',
                 content: 'try again'
-            }))
+            }));
         })
     );
 

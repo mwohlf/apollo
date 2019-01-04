@@ -18,22 +18,19 @@ export const initialState: State = {
 export function reducer(currentState: State = initialState, action: AuthActions): State {
     switch (action.type) {
         case authActions.AuthActionTypes.LOGIN: {
-            console.log("triggered login action");
             return {
                 ...currentState,
                 usernamePasswordCredential: action.payload
-            }
+            };
         }
         case authActions.AuthActionTypes.LOGIN_FAILED: {
-            console.log("triggered login failed action");
             return currentState;
         }
         case authActions.AuthActionTypes.LOGIN_SUCCESS: {
-            console.log("triggered login success action");
             return {
                 ...currentState,
                 bearerTokenCredential: action.payload
-            }
+            };
         }
         default:
             return currentState;

@@ -16,7 +16,6 @@ import {OverlayContainer} from '@angular/cdk/overlay';
 import {CreateToastAction, DismissToastAction, ToastActions, ToastActionTypes} from '../actions/toast.actions';
 import {switchMap, withLatestFrom} from 'rxjs/operators';
 import {ToastContainerComponent} from '../../widget/toast/toast-container.component';
-import {container} from '@angular/core/src/render3';
 
 export interface Toast {
     severity: Severity;
@@ -52,7 +51,7 @@ export class ToastEffects {
         ofType(ToastActionTypes.CREATE),
         withLatestFrom(this.store.select(state => state.toasts)),
         switchMap(([createToastAction, toasts]: [CreateToastAction, fromToast.State]) => {
-            console.log("toasts: " + toasts);
+            console.log('toasts: ', toasts);
             const toastContainer = this.findToastContainer();
             toastContainer.setToasts(toasts.toasts);
             return [];
@@ -64,7 +63,6 @@ export class ToastEffects {
         ofType(ToastActionTypes.DISMISS),
         withLatestFrom(this.store.select(state => state.toasts)),
         switchMap(([dismissToastAction, toasts]: [DismissToastAction, fromToast.State]) => {
-            console.log("toasts: ", toasts);
             if (toasts.toasts.length === 0) {
                 this.destroyToastContainer();
             } else {
@@ -88,7 +86,7 @@ export class ToastEffects {
             const renderer2 = this.rendererFactory.createRenderer(this.overlayContainer.getContainerElement(), null);
             renderer2.appendChild(this.overlayContainer.getContainerElement(), domElem);
         }
-        return this.toastContainerComponentRef.instance
+        return this.toastContainerComponentRef.instance;
     }
 
     private destroyToastContainer(): void {

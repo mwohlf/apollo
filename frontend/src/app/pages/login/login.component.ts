@@ -23,18 +23,16 @@ export class LoginComponent implements OnInit {
         this.loginForm = new FormGroup({
             username: new FormControl('', [Validators.required]),
             password: new FormControl('', [Validators.required]),
-        }, );
+        });
     }
 
     public login(): void {
-        console.debug('<login>');
         const usernamePasswordCredential: UsernamePasswordCredential = {
             password: this.loginForm.controls['username'].value,
             useranme: this.loginForm.controls['password'].value
         };
-
+        console.debug('<login> triggered for usernamePasswordCredential ', usernamePasswordCredential);
         this.store.dispatch(new authActions.LoginAction(usernamePasswordCredential));
-
     }
 
 }

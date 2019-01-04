@@ -22,8 +22,6 @@ export class ThemeEffects {
         {value: 'dark-theme', label: 'Dark'},
     ];
 
-    private static BODY_TAG: string = 'body';
-
     private body: HTMLBodyElement;
 
     private overlay: HTMLElement;

@@ -29,7 +29,7 @@ export class AuthEffects {
         map(action => action.payload),
         //
         switchMap((usernamePasswordCredential: UsernamePasswordCredential) => {
-            console.log("<effect> login with: ", usernamePasswordCredential);
+            console.log('<effect> login ', usernamePasswordCredential);
             // convert into another action ...
             return this.loginControllerService.authenticate(usernamePasswordCredential).pipe(
                 // got a bearer token
@@ -46,7 +46,7 @@ export class AuthEffects {
         ofType(AuthActionTypes.LOGIN_SUCCESS),
         map(action => action.payload),
         switchMap((bearerTokenCredential: BearerTokenCredential) => {
-            console.log("<effect> login success ", bearerTokenCredential);
+            console.log('<effect> login success ', bearerTokenCredential);
             return [];
         })
     );
@@ -57,12 +57,12 @@ export class AuthEffects {
         ofType(AuthActionTypes.LOGIN_FAILED),
         map(action => action.payload),
         switchMap((error: any) => {
-            console.log("<effect> login fail ", error);
+            console.log('<effect> login fail ', error);
             return of(new CreateToastAction({
                 severity: Severity.ERROR,
                 title: 'login failed',
                 content: 'try again'
-            }))
+            }));
         })
     );
 

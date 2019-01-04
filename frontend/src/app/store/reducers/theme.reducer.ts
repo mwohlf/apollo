@@ -16,18 +16,15 @@ export const initialState: State = {
 export function reducer(currentState: State = initialState, action: ThemeActions): State {
     switch (action.type) {
         case themeActions.ThemeActionTypes.APPLY: {
-            console.log("themeActions.ThemeActionTypes.APPLY, this only triggers cleanup and install");
             return currentState;
         }
         case themeActions.ThemeActionTypes.CLEANUP: {
-            console.log("themeActions.ThemeActionTypes.CLEANUP");
             return {
                 ...currentState,
                 currentTheme: undefined
             };
         }
         case themeActions.ThemeActionTypes.INSTALL: {
-            console.log("themeActions.ThemeActionTypes.INSTALL", action.payload);
             return {
                 ...currentState,
                 currentTheme: action.payload
