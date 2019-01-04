@@ -1,8 +1,8 @@
-<div class="toast-component" fxLayout="column">
-  <mat-icon fxFlexAlign="end" style="cursor: pointer;" (click)="close()">close</mat-icon>
+<div class="toast-component" fxLayout="row wrap">
+  <strong fxFlex>{{toast.title}}</strong>
+  <mat-icon fxFlex="nogrow" style="cursor: pointer;" (click)="close()">close</mat-icon>
 
-  <div fxFlexAlign="start" class="toast-content">
-    <strong>{{toast.title}}</strong><br/>
+  <div fxFlex="grow" class="toast-content">
     {{toast.content}}
   </div>
 </div>

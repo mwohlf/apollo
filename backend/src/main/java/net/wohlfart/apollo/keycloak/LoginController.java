@@ -34,35 +34,52 @@ public class LoginController {
         log.info("<authenticate> authentication:" + authentication);
         final KeycloakProperties.Client client = keycloakProperties.getClient();
         Assert.notNull(client, "client must not be null");
+        // "Direct Access Grants Enabled" must be set to true
         // https://stackoverflow.com/questions/28658735/what-are-keycloaks-oauth2-openid-connect-endpoints
         //   "token_endpoint": "http://localhost:8080/auth/realms/demo/protocol/openid-connect/token",
+        // curl example:
+        //    https://www.keycloak.org/docs/latest/securing_apps/index.html#flows
         final WebClient webClient = WebClient.create(keycloakProperties.getServerUrl());
         LinkedMultiValueMap<String, String> linkedMultiValueMap = new LinkedMultiValueMap<>();
         linkedMultiValueMap.add("client_id", client.getClientId());
         linkedMultiValueMap.add("client_secret", client.getSecret());
-        linkedMultiValueMap.add("username", client.getUsername());
-        linkedMultiValueMap.add("password", client.getPassword());
+        linkedMultiValueMap.add("username", authentication.getUseranme());
+        linkedMultiValueMap.add("password", authentication.getPassword());
         linkedMultiValueMap.add("grant_type", GRANT_TYPE_PASSWORD);
 
         log.info("<authenticate> keycloakProperties.getServerUrl() " + keycloakProperties.getServerUrl());
-        final String uri = resolveUri(client);
+        // final String uri = tokenEndpoint(client);
+        final String uri = tokenEndpoint(client);
         log.info("<authenticate> uri " + uri);
+
 
         final Mono<BearerTokenCredential> result = webClient
             .post()
             .uri(uri)
             .body(BodyInserters.fromFormData(linkedMultiValueMap))
             .accept(MediaType.APPLICATION_JSON_UTF8)
-            .retrieve()
-            .bodyToMono(BearerTokenCredential.class);
+            .exchange()
+            .flatMap(response -> {
+                log.info("<response> " + response);
+                log.info("<response> statusCode " + response.statusCode());
+                return response.bodyToMono(BearerTokenCredential.class);
+            });
+            // .retrieve()
+            // .bodyToMono(BearerTokenCredential.class)
+            // .onErrorReturn(null)
+            ;
 
         log.info("<authenticate> " + result);
 
         return result;
     }
 
-    private String resolveUri(KeycloakProperties.Client client) {
+    private String tokenEndpoint(KeycloakProperties.Client client) {
         return "/realms/" + client.getRealm() + "/protocol/openid-connect/token";
+    }
+
+    private String authEndpoint(KeycloakProperties.Client client) {
+        return "/realms/" + client.getRealm() + "/protocol/openid-connect/auth";
     }
 
 }
