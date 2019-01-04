@@ -2,10 +2,10 @@ import {Action} from '@ngrx/store';
 import {BearerTokenCredential, UsernamePasswordCredential} from '../../../generated';
 
 export enum AuthActionTypes {
-    LOGIN           = '[Auth] LoginAction',
+    LOGIN           = '[Auth] Login',
     LOGIN_FAILED    = '[Auth] LoginFailed',
     LOGIN_SUCCESS   = '[Auth] LoginSuccess',
-    LOGOUT          = '[Auth] LogoutAction'
+    LOGOUT          = '[Auth] Logout'
 }
 
 export class LoginAction implements Action {

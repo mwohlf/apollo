@@ -15,18 +15,18 @@ export const initialState: State = {
 // reducer transform old state into new state via actions
 export function reducer(currentState: State = initialState, action: ConfigActions): State {
     switch (action.type) {
-        case configActions.ConfigActionTypes.CONFIG_LOAD: {
+        case configActions.ConfigActionTypes.LOAD: {
             console.log("triggered login action");
             return currentState;
         }
-        case configActions.ConfigActionTypes.CONFIG_LOAD_SUCCESS: {
+        case configActions.ConfigActionTypes.LOAD_SUCCESS: {
             console.log("triggered login failed action");
             return {
                 ...currentState,
                 applicationProperties: action.payload
             };
         }
-        case configActions.ConfigActionTypes.CONFIG_LOAD_FAILED: {
+        case configActions.ConfigActionTypes.LOAD_FAILED: {
             console.log("triggered login success action");
             return {
                 ...currentState,

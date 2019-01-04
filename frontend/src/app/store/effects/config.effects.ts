@@ -3,9 +3,10 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {ApplicationProperties, ConfigControllerService, UsernamePasswordCredential} from '../../../generated';
 import {catchError, map, switchMap} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
-import {ConfigActions, ConfigActionTypes, ConfigFailedAction, ConfigSuccessAction} from '../actions/config.actions';
+import {ConfigActions, ConfigActionTypes, ConfigFailedAction, ConfigLoadAction, ConfigSuccessAction} from '../actions/config.actions';
 import {CreateToastAction, ToastActions} from '../actions/toast.actions';
 import {Severity} from './toast.effect';
+import { ROOT_EFFECTS_INIT } from '@ngrx/effects'
 
 // effects
 // see: https://medium.com/frontend-fun/angular-ngrx-a-clean-and-clear-introduction-4ed61c89c1fc
@@ -16,20 +17,22 @@ import {Severity} from './toast.effect';
 // Simply speaking, an effect is an Observable that maps its items to actions that will then be dispatched to the store automatically.
 // In most cases, the source of an Effect is the global stream of actions:
 @Injectable()
-export class AuthEffects {
+export class ConfigEffects {
 
     constructor(private actions: Actions<ConfigActions>,
                 private configControllerService: ConfigControllerService) {}
 
     @Effect()
+    initConfigAction: Observable<ConfigActions> = this.actions.pipe(   //
+        ofType(ROOT_EFFECTS_INIT),
+        map(() => new ConfigLoadAction())
+    );
+
+    @Effect()
     loadConfigAction: Observable<ConfigActions> = this.actions.pipe(   //
-        // only interested in the login action
-        ofType(ConfigActionTypes.CONFIG_LOAD),
-        // read the payload needed to login
-        map(action => action.payload),
-        //
-        switchMap((usernamePasswordCredential: UsernamePasswordCredential) => {
-            console.log("<effect> login with: ", usernamePasswordCredential);
+        ofType(ConfigActionTypes.LOAD),
+        switchMap(() => {
+            console.log("<effect> load config: ");
             // convert into another action ...
             return this.configControllerService.getApplicationProperties().pipe(
                 // got a bearer token
@@ -43,7 +46,7 @@ export class AuthEffects {
     @Effect()
     configSuccessAction: Observable<ConfigActions> = this.actions.pipe(   //
         // only interested in the login action
-        ofType(ConfigActionTypes.CONFIG_LOAD_SUCCESS),
+        ofType(ConfigActionTypes.LOAD_SUCCESS),
         map(action => action.payload),
         switchMap((applicationProperties: ApplicationProperties) => {
             console.log("<effect> config success ", applicationProperties);
@@ -54,7 +57,7 @@ export class AuthEffects {
     @Effect()
     configFailedAction: Observable<ToastActions> = this.actions.pipe(   //
         // only interested in the login action
-        ofType(ConfigActionTypes.CONFIG_LOAD_FAILED),
+        ofType(ConfigActionTypes.LOAD_FAILED),
         map(action => action.payload),
         switchMap((error: any) => {
             console.log("<effect> login error ", error);

@@ -35,11 +35,10 @@ import {LoginComponent} from './pages/login/login.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {ApiModule, BASE_PATH} from '../generated';
-import {initProperties, PropertiesProvider} from './config/properties.provider';
 import {IconsProvider, initIcons} from './config/icons.provider';
 import {SidenavComponent} from './sidenav/sidenav.component';
 import {ThemePickerComponent} from './widget/theme-picker/theme-picker.component';
-import {StoreModule} from '@ngrx/store';
+import {Store, StoreModule} from '@ngrx/store';
 import {reducers} from './store/reducers';
 import {AuthEffects} from './store/effects/auth.effects';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
@@ -49,6 +48,13 @@ import {ThemeEffects} from './store/effects/theme.effects';
 import {ToastEffects} from './store/effects/toast.effect';
 import {ToastComponent} from './widget/toast/toast.component';
 import {ToastContainerComponent} from './widget/toast/toast-container.component';
+import {ConfigEffects} from './store/effects/config.effects';
+import * as fromConfig from './store/reducers/config.reducer';
+import {ConfigLoadAction} from './store/actions/config.actions';
+import {State} from './store/reducers/config.reducer';
+import {switchMap, withLatestFrom} from 'rxjs/operators';
+import {DismissToastAction} from './store/actions/toast.actions';
+import * as fromToast from './store/reducers/toast.reducer';
 
 
 @NgModule({
@@ -96,6 +102,7 @@ import {ToastContainerComponent} from './widget/toast/toast-container.component'
         StoreModule.forRoot(reducers),
         EffectsModule.forRoot([
             AuthEffects,
+            ConfigEffects,
             ThemeEffects,
             ToastEffects
         ]),
@@ -103,11 +110,9 @@ import {ToastContainerComponent} from './widget/toast/toast-container.component'
     providers: [
         IconsProvider,
         KeycloakService,
-        PropertiesProvider,
 
-        { provide: APP_INITIALIZER, useFactory: initProperties, deps: [PropertiesProvider], multi: true },
         { provide: APP_INITIALIZER, useFactory: initIcons, deps: [IconsProvider], multi: true },
-        { provide: BASE_PATH, useValue: PropertiesProvider.BASE_PATH }
+        { provide: BASE_PATH, useValue: ' ' }
     ],
     schemas: [
         CUSTOM_ELEMENTS_SCHEMA,
@@ -119,3 +124,21 @@ export class AppModule { }
 
 
 // see: https://www.intertech.com/Blog/ngrx-tutorial-actions-reducers-and-effects/
+
+
+// TODO: this is not working
+export function initApplication(store: Store<fromConfig.State>): Function {
+    return () => new Promise(resolve => {
+        store.dispatch(new ConfigLoadAction());
+        resolve(true);
+    });
+}
+
+/*
+
+                filter(users =>  users !== null && users !== undefined && users.length > 0),
+                take(1)
+            ).subscribe((users) => {
+            store.dispatch(new FinishAppInitializer());
+
+ */

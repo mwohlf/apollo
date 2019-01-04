@@ -2,23 +2,23 @@ import {Action} from '@ngrx/store';
 import {ApplicationProperties, BearerTokenCredential, UsernamePasswordCredential} from '../../../generated';
 
 export enum ConfigActionTypes {
-    CONFIG_LOAD           = '[Config] Load',
-    CONFIG_LOAD_FAILED    = '[Config] Load Failed',
-    CONFIG_LOAD_SUCCESS   = '[Config] Load Success',
+    LOAD           = '[Config] Load',
+    LOAD_FAILED    = '[Config] LoadFailed',
+    LOAD_SUCCESS   = '[Config] LoadSuccess',
 }
 
 export class ConfigLoadAction implements Action {
-    readonly type = ConfigActionTypes.CONFIG_LOAD;
-    constructor(public payload: UsernamePasswordCredential) {}
+    readonly type = ConfigActionTypes.LOAD;
+    constructor() {}
 }
 
 export class ConfigFailedAction implements Action {
-    readonly type = ConfigActionTypes.CONFIG_LOAD_FAILED;
+    readonly type = ConfigActionTypes.LOAD_FAILED;
     constructor(public payload: any) {}
 }
 
 export class ConfigSuccessAction implements Action {
-    readonly type = ConfigActionTypes.CONFIG_LOAD_SUCCESS;
+    readonly type = ConfigActionTypes.LOAD_SUCCESS;
     constructor(public payload: ApplicationProperties) {}
 }
 
