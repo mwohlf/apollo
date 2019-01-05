@@ -3,25 +3,26 @@ import io.swagger.codegen.DefaultGenerator
 buildscript {
     dependencies {
         // see: https://github.com/thebignet/swagger-codegen-gradle-plugin-example
-        classpath("io.swagger:swagger-codegen:${versions.swagger_codegen}") 
+        classpath("io.swagger:swagger-codegen:${versions.swagger_codegen}")
     }
 }
 
 plugins {
-    id "com.moowork.node" version "1.2.0"
+    // https://plugins.gradle.org/plugin/com.github.node-gradle.node
+    id "com.github.node-gradle.node" version "1.3.0"
 }
 
-// apply plugin: 'java'
 apply plugin: 'base'
+apply plugin: 'com.github.node-gradle.node'
 
 
 node {
+    download = true
     version = "${versions.node}"
     npmVersion = "${versions.npm}"
     yarnVersion = "${versions.yarn}"
-    download = true
-    workDir = file("${projectDir}/.gradle/node")
-    nodeModulesDir = file("${project.projectDir}")
+    // workDir = file("${projectDir}/.gradle/node")
+    // nodeModulesDir = file("${project.projectDir}")
 }
 
 
@@ -47,15 +48,18 @@ task generateApi {
     }
 }
 
+task yarnInstall(type: YarnTask) {
+    group "Frontend Generation"
+    description "install frontend dependencies"
+    dependsOn yarnSetup
+    args = ['install']
+}
 
 task yarnRunBuild(type: YarnTask) {
     group "Frontend Generation"
-    description "compile the frontend with yarn"
-
-    dependsOn yarn_install
-    // yarnSetup.enabled = false;
-    dependsOn generateApi
-    args = ['run', 'build']   // compiles into build/dist. the output dir in package.json for "ng build"
+    description "install frontend dependencies"
+    dependsOn yarnSetup
+    args = ['run', 'build']   // compiles into build/resources. the output dir in package.json for "ng build"
 }
 
 configurations {
@@ -71,17 +75,15 @@ task webjar(type: Zip) {
     extension 'jar'
     classifier 'webjar'
     dependsOn generateApi
+    dependsOn yarnInstall
     dependsOn yarnRunBuild
     // default is to build into /dist, however we want it gradle style, also need to change the path in angular.json
-    from(fileTree("build/dist")) {
+    from(fileTree("build/resources")) {  // this is configured in package.json
         // into "META-INF/resources/webjars" // must match WebJarsResourceResolver.WEBJARS_LOCATION
         into "META-INF/resources" // must match WebJarsResourceResolver.WEBJARS_LOCATION
     }
     outputs.file archivePath
 }
-
-// build.dependsOn(webjar)
-
 
 artifacts {
     webjar(webjar.archivePath) {

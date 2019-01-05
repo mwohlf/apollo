@@ -22,12 +22,18 @@ dependencyManagement {
     }
 }
 
+build.dependsOn(":frontend:webjar").dependsOn(":backend:generateSwaggerDocumentation")
+
+build.doLast {
+    generateSwaggerDocumentation
+}
+
 
 dependencies {
 
-    // TODO: remove this dependencies:
-    implementation        project(path: ':frontend', configuration: 'webjar')
+    // frontend dependency
     implementation        'org.webjars:webjars-locator-core'
+    compile           files('../frontend/build/distributions/frontend-webjar.jar')
 
     // spring
     implementation        "org.springframework.boot:spring-boot-starter-webflux"
@@ -70,10 +76,6 @@ springBoot {
     mainClassName = 'net.wohlfart.apollo.BackendServerApplication'
 }
 
-build.doLast {
-    generateSwaggerDocumentation
-}
-
 clean.doFirst {
     delete "${projectDir}/out" // from idea
 }
@@ -81,7 +83,7 @@ clean.doFirst {
 task MrProper {
     dependsOn(clean)
     doLast {
-        // delete "${rootProject.ext.apiDefinitionPath}"
+        delete "${rootProject.ext.apiDefinitionPath}"
         delete "${projectDir}/.gradle"  // might not work on windows
     }
 }
