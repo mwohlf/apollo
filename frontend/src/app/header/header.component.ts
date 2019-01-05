@@ -1,5 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {MatSidenav} from "@angular/material";
+import {MatSidenav} from '@angular/material';
+import {Store} from '@ngrx/store';
+import * as fromRoot from '../store/reducers';
 
 @Component({
     selector: 'app-header',
@@ -10,7 +12,11 @@ export class HeaderComponent implements OnInit {
     @Input()
     public sidenav: MatSidenav;
 
-    constructor() { }
+    constructor(private store: Store<fromRoot.State>) {
+        store.select(state => state.auth.tokenCredentials).subscribe((auth) => {
+            console.log('<header> auth.tokenCredentials ', auth);
+        });
+    }
 
     ngOnInit() {
     }

@@ -14,6 +14,8 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.util.Map;
+
 import static net.wohlfart.apollo.config.SecurityConfig.API;
 
 @Slf4j
@@ -30,7 +32,7 @@ public class LoginController {
 
     @ApiOperation(value = "get application config data", response = BearerTokenCredential.class)
     @PostMapping(path = LoginController.LOGIN_ENDPOINT, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<BearerTokenCredential> authenticate(@RequestBody UsernamePasswordCredential authentication) {
+    public Mono<Map> authenticate(@RequestBody UsernamePasswordCredential authentication) {
         log.info("<authenticate> authentication:" + authentication);
         final KeycloakProperties.Client client = keycloakProperties.getClient();
         Assert.notNull(client, "client must not be null");
@@ -54,7 +56,7 @@ public class LoginController {
         log.info("<authenticate> uri " + uri);
 
 
-        final Mono<BearerTokenCredential> result = webClient
+        return webClient
             .post()
             .uri(uri)
             .body(BodyInserters.fromFormData(linkedMultiValueMap))
@@ -63,16 +65,8 @@ public class LoginController {
             .flatMap(response -> {
                 log.info("<response> " + response);
                 log.info("<response> statusCode " + response.statusCode());
-                return response.bodyToMono(BearerTokenCredential.class);
+                return response.bodyToMono(Map.class);
             });
-            // .retrieve()
-            // .bodyToMono(BearerTokenCredential.class)
-            // .onErrorReturn(null)
-            ;
-
-        log.info("<authenticate> " + result);
-
-        return result;
     }
 
     private String tokenEndpoint(KeycloakProperties.Client client) {

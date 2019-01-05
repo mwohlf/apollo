@@ -5,12 +5,12 @@ import {BearerTokenCredential, UsernamePasswordCredential} from '../../../genera
 // part of the global state that is affected by this action/reducer
 export interface State {
     usernamePasswordCredential: UsernamePasswordCredential | undefined;
-    bearerTokenCredential: BearerTokenCredential | undefined;
+    tokenCredentials: any | undefined;
 }
 
 export const initialState: State = {
     usernamePasswordCredential: undefined,
-    bearerTokenCredential: undefined
+    tokenCredentials: undefined
 };
 
 
@@ -29,7 +29,7 @@ export function reducer(currentState: State = initialState, action: AuthActions)
         case authActions.AuthActionTypes.LOGIN_SUCCESS: {
             return {
                 ...currentState,
-                bearerTokenCredential: action.payload
+                tokenCredentials: action.payload
             };
         }
         default:

@@ -20,7 +20,7 @@ export class LoginFailedAction implements Action {
 
 export class LoginSuccessAction implements Action {
     readonly type = AuthActionTypes.LOGIN_SUCCESS;
-    constructor(public payload: BearerTokenCredential) {}
+    constructor(public payload: any) {}
 }
 
 export class LogoutAction implements Action {
