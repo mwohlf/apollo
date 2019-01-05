@@ -12,7 +12,7 @@ plugins {
 }
 
 // apply plugin: 'java'
-apply plugin: 'maven'
+apply plugin: 'base'
 
 
 node {
@@ -24,6 +24,8 @@ node {
     nodeModulesDir = file("${project.projectDir}")
 }
 
+
+// this is NOT triggered by the backend,
 task generateApi {
     group "API Generation"
     description "Create angular API from the swagger definition in ${rootProject.ext.apiDefinitionPath}"
@@ -45,11 +47,13 @@ task generateApi {
     }
 }
 
+
 task yarnRunBuild(type: YarnTask) {
     group "Frontend Generation"
     description "compile the frontend with yarn"
 
     dependsOn yarn_install
+    // yarnSetup.enabled = false;
     dependsOn generateApi
     args = ['run', 'build']   // compiles into build/dist. the output dir in package.json for "ng build"
 }
@@ -66,6 +70,7 @@ task webjar(type: Zip) {
 
     extension 'jar'
     classifier 'webjar'
+    dependsOn generateApi
     dependsOn yarnRunBuild
     // default is to build into /dist, however we want it gradle style, also need to change the path in angular.json
     from(fileTree("build/dist")) {
@@ -75,7 +80,7 @@ task webjar(type: Zip) {
     outputs.file archivePath
 }
 
-build.dependsOn(webjar)
+// build.dependsOn(webjar)
 
 
 artifacts {

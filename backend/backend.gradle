@@ -70,7 +70,7 @@ springBoot {
     mainClassName = 'net.wohlfart.apollo.BackendServerApplication'
 }
 
-build.doFirst {
+build.doLast {
     generateSwaggerDocumentation
 }
 
