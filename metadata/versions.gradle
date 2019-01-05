@@ -5,8 +5,8 @@ ext.versions = [
 
     apollo                :  "0.0.1-SNAPSHOT",
 
-    node                  :  '11.5.0',   // this should match the version on the build host
-    npm                   :  '6.5.0',    // not used
+    node                  :  '11.5.0',          // this should match the version on the build host
+    npm                   :  '6.5.0',           // not used
     yarn                  :  '1.12.3',
     lombok                :  '1.18.4',
     springfox             :  '3.0.0-SNAPSHOT',  // check version
@@ -16,11 +16,11 @@ ext.versions = [
 
 
     swagger_gradle_plugin :  '1.0.4',           // https://github.com/gigaSproule/swagger-gradle-plugin
-    swagger_codegen       :  '2.3.1-SNAPSHOT',
+    swagger_codegen       :  '2.4.0',           //   3.0.3 for io.swagger.codegen.v3
     keycloak              :  '4.8.1.Final',
 
     resteasy              :  '3.6.1.Final',
-    spring_boot           :  '2.1.1.RELEASE',    // used in the buildscript for gradle plugins
+    spring_boot           :  '2.1.1.RELEASE',   // used in the buildscript for gradle plugins
     guava                 :  '27.0-jre',
     jaxb                  :  '2.3.1',
     activation            :  '1.1.1',

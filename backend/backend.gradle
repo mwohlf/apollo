@@ -81,7 +81,7 @@ clean.doFirst {
 task MrProper {
     dependsOn(clean)
     doLast {
-        delete "${rootProject.ext.apiDefinitionPath}"
+        // delete "${rootProject.ext.apiDefinitionPath}"
         delete "${projectDir}/.gradle"  // might not work on windows
     }
 }
