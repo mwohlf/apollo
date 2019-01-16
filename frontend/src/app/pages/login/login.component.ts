@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {UsernamePasswordCredential} from '../../../generated';
+import {UserCredentials} from '../../../generated';
 
 import * as fromRoot from '../../store/reducers';
 import * as authActions from '../../store/actions/auth.actions';
@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
     }
 
     public login(): void {
-        const usernamePasswordCredential: UsernamePasswordCredential = {
+        const usernamePasswordCredential: UserCredentials = {
             username: this.loginForm.controls['username'].value,
             password: this.loginForm.controls['password'].value
         };

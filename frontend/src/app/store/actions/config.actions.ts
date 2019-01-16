@@ -1,5 +1,5 @@
 import {Action} from '@ngrx/store';
-import {ApplicationProperties, BearerTokenCredential, UsernamePasswordCredential} from '../../../generated';
+import {ApplicationProperties} from '../../../generated';
 
 export enum ConfigActionTypes {
     LOAD           = '[Config] Load',

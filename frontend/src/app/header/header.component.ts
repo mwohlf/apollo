@@ -13,7 +13,7 @@ export class HeaderComponent implements OnInit {
     public sidenav: MatSidenav;
 
     constructor(private store: Store<fromRoot.State>) {
-        store.select(state => state.auth.tokenCredentials).subscribe((auth) => {
+        store.select(state => state.auth.accessToken).subscribe((auth) => {
             console.log('<header> auth.tokenCredentials ', auth);
         });
     }

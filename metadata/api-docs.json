@@ -46,14 +46,14 @@
           "name" : "body",
           "required" : false,
           "schema" : {
-            "$ref" : "#/definitions/UsernamePasswordCredential"
+            "$ref" : "#/definitions/UserCredentials"
           }
         } ],
         "responses" : {
           "200" : {
             "description" : "successful operation",
             "schema" : {
-              "$ref" : "#/definitions/BearerTokenCredential"
+              "$ref" : "#/definitions/TokenCredentials"
             }
           }
         }
@@ -70,16 +70,24 @@
         }
       }
     },
-    "BearerTokenCredential" : {
+    "TokenCredentials" : {
       "type" : "object",
-      "required" : [ "bearerToken" ],
       "properties" : {
-        "bearerToken" : {
+        "accessToken" : {
+          "type" : "string"
+        },
+        "refreshToken" : {
+          "type" : "string"
+        },
+        "error" : {
+          "type" : "string"
+        },
+        "errorMessage" : {
           "type" : "string"
         }
       }
     },
-    "UsernamePasswordCredential" : {
+    "UserCredentials" : {
       "type" : "object",
       "required" : [ "password", "username" ],
       "properties" : {

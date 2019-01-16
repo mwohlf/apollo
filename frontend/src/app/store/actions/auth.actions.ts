@@ -1,5 +1,5 @@
 import {Action} from '@ngrx/store';
-import {BearerTokenCredential, UsernamePasswordCredential} from '../../../generated';
+import {TokenCredentials, UserCredentials} from '../../../generated';
 
 export enum AuthActionTypes {
     LOGIN           = '[Auth] Login',
@@ -10,17 +10,17 @@ export enum AuthActionTypes {
 
 export class LoginAction implements Action {
     readonly type = AuthActionTypes.LOGIN;
-    constructor(public payload: UsernamePasswordCredential) {}
+    constructor(public payload: UserCredentials) {}
 }
 
 export class LoginFailedAction implements Action {
     readonly type = AuthActionTypes.LOGIN_FAILED;
-    constructor(public payload: any) {}
+    constructor(public payload: TokenCredentials) {}
 }
 
 export class LoginSuccessAction implements Action {
     readonly type = AuthActionTypes.LOGIN_SUCCESS;
-    constructor(public payload: any) {}
+    constructor(public payload: TokenCredentials) {}
 }
 
 export class LogoutAction implements Action {

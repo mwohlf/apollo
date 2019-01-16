@@ -1,16 +1,19 @@
 import * as authActions from '../actions/auth.actions';
 import {AuthActions} from '../actions/auth.actions';
-import {BearerTokenCredential, UsernamePasswordCredential} from '../../../generated';
 
 // part of the global state that is affected by this action/reducer
 export interface State {
-    usernamePasswordCredential: UsernamePasswordCredential | undefined;
-    tokenCredentials: any | undefined;
+    username: string | undefined;
+    password: string | undefined;
+    accessToken: string | undefined;
+    refreshToken: string | undefined;
 }
 
 export const initialState: State = {
-    usernamePasswordCredential: undefined,
-    tokenCredentials: undefined
+    username: undefined,
+    password: undefined,
+    accessToken: undefined,
+    refreshToken: undefined
 };
 
 
@@ -20,16 +23,24 @@ export function reducer(currentState: State = initialState, action: AuthActions)
         case authActions.AuthActionTypes.LOGIN: {
             return {
                 ...currentState,
-                usernamePasswordCredential: action.payload
+                username: action.payload.username,
+                password: action.payload.password
             };
         }
         case authActions.AuthActionTypes.LOGIN_FAILED: {
-            return currentState;
+            return {
+                ...currentState,
+                username: undefined,
+                password: undefined,
+                accessToken: undefined,
+                refreshToken: undefined
+            };
         }
         case authActions.AuthActionTypes.LOGIN_SUCCESS: {
             return {
                 ...currentState,
-                tokenCredentials: action.payload
+                accessToken: action.payload.accessToken,
+                refreshToken: action.payload.refreshToken,
             };
         }
         default:
