@@ -15,7 +15,6 @@ export interface ThemeChoice {
 @Component({
     selector: 'app-theme-picker',
     templateUrl: './theme-picker.component.html'
-
 })
 export class ThemePickerComponent implements OnInit {
 
@@ -24,7 +23,7 @@ export class ThemePickerComponent implements OnInit {
     public themeChoices: any = ThemeEffects.THEME_CHOICES;
 
     constructor(private overlayContainer: OverlayContainer,
-                private store: Store<fromRoot.State>) { }
+                private store: Store<fromRoot.ApplicationState>) { }
 
     ngOnInit() {
     }

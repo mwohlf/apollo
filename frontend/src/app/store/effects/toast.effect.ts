@@ -39,7 +39,7 @@ export class ToastEffects {
 
     constructor(private actions: Actions<ToastActions>,
                 private overlayContainer: OverlayContainer,
-                private store: Store<fromRoot.State>,
+                private store: Store<fromRoot.ApplicationState>,
                 private componentFactoryResolver: ComponentFactoryResolver,
                 private appRef: ApplicationRef,
                 private injector: Injector,

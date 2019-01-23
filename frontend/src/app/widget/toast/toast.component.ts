@@ -17,7 +17,7 @@ export class ToastComponent {
     @Input()
     toast: Toast;
 
-    constructor(private store: Store<fromRoot.State>) {}
+    constructor(private store: Store<fromRoot.ApplicationState>) {}
 
     public close(): void {
         console.log("close called");

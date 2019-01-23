@@ -8,14 +8,13 @@ import {Store} from '@ngrx/store';
 
 
 @Component({
-    selector: 'app-login',
     templateUrl: './login.component.html'
 })
 export class LoginComponent implements OnInit {
 
     public loginForm: FormGroup;
 
-    constructor(private store: Store<fromRoot.State>) {}
+    constructor(private store: Store<fromRoot.ApplicationState>) {}
 
     // constructor(private loginControllerService: LoginControllerService) { }
 

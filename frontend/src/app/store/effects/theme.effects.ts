@@ -29,7 +29,7 @@ export class ThemeEffects {
 
     constructor(private actions: Actions<ThemeActions>,
                 private overlayContainer: OverlayContainer,
-                private store: Store<fromRoot.State>) {
+                private store: Store<fromRoot.ApplicationState>) {
         this.body = document.getElementsByTagName('body')[0];
         this.overlay = this.overlayContainer.getContainerElement();
 

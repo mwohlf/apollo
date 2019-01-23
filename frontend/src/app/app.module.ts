@@ -55,6 +55,7 @@ import {State} from './store/reducers/config.reducer';
 import {switchMap, withLatestFrom} from 'rxjs/operators';
 import {DismissToastAction} from './store/actions/toast.actions';
 import * as fromToast from './store/reducers/toast.reducer';
+import {StoreRouterConnectingModule} from '@ngrx/router-store';
 
 
 @NgModule({
@@ -97,15 +98,22 @@ import * as fromToast from './store/reducers/toast.reducer';
         MatToolbarModule,
         MatTooltipModule,
         ReactiveFormsModule,
-        // StoreModule.forRoot(),
-        !environment.production ? StoreDevtoolsModule.instrument() : [],
-        StoreModule.forRoot(reducers),
+        // !environment.production ? StoreDevtoolsModule.instrument() : [],
+        StoreModule.forRoot(
+            reducers // contains router reducer
+        ),
+        // Connects RouterModule with StoreModule
+        StoreRouterConnectingModule.forRoot(),
         EffectsModule.forRoot([
             AuthEffects,
             ConfigEffects,
             ThemeEffects,
             ToastEffects
         ]),
+        StoreDevtoolsModule.instrument({
+            maxAge: 25, // Retains last 25 states
+            logOnly: environment.production, // Restrict extension to log-only mode
+        }),
     ],
     providers: [
         IconsProvider,

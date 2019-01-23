@@ -1,5 +1,31 @@
 # Quickref  [![Build Status](https://travis-ci.org/mwohlf/apollo.svg?branch=dev)](https://travis-ci.org/mwohlf/apollo)
 
+## Prerequisites
+
+- Java
+- Gradle
+- Docker
+
+
+
+## Build
+
+generate Swagger API docs from Backend code: 
+`gradle gSD
+`
+
+
+## Setup
+
+
+## Run
+
+`gradle bootRun
+`
+
+on debug port 4220:
+npm run start
+
 setup for elestic search
 
 echo "vm.max_map_count=262144" >> /usr/lib/sysctl.d/vm.conf

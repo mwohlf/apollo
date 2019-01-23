@@ -11,7 +11,7 @@ import {Severity} from '../../store/effects/toast.effect';
 })
 export class Page1Component implements OnInit {
 
-    constructor(private store: Store<fromRoot.State>) {}
+    constructor(private store: Store<fromRoot.ApplicationState>) {}
 
     ngOnInit() {
     }
