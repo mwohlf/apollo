@@ -77,6 +77,8 @@ ng generate c header
 
 ng generate c pages/login
 
+ng generate c pages/register
+
 ng generate c pages/page1 -d
 
 

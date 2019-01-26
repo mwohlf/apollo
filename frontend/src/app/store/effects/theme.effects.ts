@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {map, switchMap, withLatestFrom} from 'rxjs/operators';
-import {Observable, of} from 'rxjs';
+import {EMPTY, Observable, of} from 'rxjs';
 import {ApplyThemeAction, CleanupThemeAction, InstallThemeAction, ThemeActions, ThemeActionTypes} from '../actions/theme.actions';
 import {Store} from '@ngrx/store';
 import * as fromRoot from '../reducers';
@@ -61,7 +61,7 @@ export class ThemeEffects {
                 this.overlay.classList.remove(themeChoice.value);
                 this.body.classList.remove(themeChoice.value);
             }
-            return [];
+            return EMPTY;
         })
     );
 
@@ -78,7 +78,7 @@ export class ThemeEffects {
                 this.body.classList.add(themeChoice.value);
             }
             // no other action
-            return [];
+            return EMPTY;
         })
     );
 

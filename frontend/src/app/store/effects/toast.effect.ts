@@ -8,7 +8,7 @@ import {
     RendererFactory2
 } from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-import {Observable} from 'rxjs';
+import {EMPTY, Observable} from 'rxjs';
 import {Store} from '@ngrx/store';
 import * as fromRoot from '../reducers';
 import * as fromToast from '../reducers//toast.reducer';
@@ -54,7 +54,7 @@ export class ToastEffects {
             console.log('toasts: ', toasts);
             const toastContainer = this.findToastContainer();
             toastContainer.setToasts(toasts.toasts);
-            return [];
+            return EMPTY;
         })
     );
 
@@ -69,7 +69,7 @@ export class ToastEffects {
                 const toastContainer = this.findToastContainer();
                 toastContainer.setToasts(toasts.toasts);
             }
-            return [];
+            return EMPTY;
         })
     );
 

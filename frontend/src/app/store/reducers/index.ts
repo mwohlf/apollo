@@ -12,6 +12,7 @@ export interface ApplicationState {
     theme: fromTheme.State;
     toasts: fromToast.State;
     config: fromConfig.State;
+    // router is configured in the StoreRouterConnectingModule.forRoot config
     router: fromRouter.RouterReducerState;
 }
 
