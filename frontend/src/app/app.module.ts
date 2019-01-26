@@ -49,6 +49,7 @@ import {ToastComponent} from './widget/toast/toast.component';
 import {ToastContainerComponent} from './widget/toast/toast-container.component';
 import {ToastEffects} from './store/effects/toast.effect';
 import {CustomRouteSerializer} from './store/state/custom-route-serializer';
+import { HomeComponent } from './pages/home/home.component';
 
 @NgModule({
     declarations: [
@@ -64,6 +65,7 @@ import {CustomRouteSerializer} from './store/state/custom-route-serializer';
         ToastComponent,
         ToastContainerComponent,
         RegisterComponent,
+        HomeComponent,
     ],
     imports: [
         ApiModule,
