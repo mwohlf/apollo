@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-import {UserCredentials, LoginControllerService, TokenCredentials} from '../../../generated';
+import {LoginControllerService, TokenCredentials, UserCredentials} from '../../../generated';
 import {AuthActions, AuthActionTypes, LoginFailedAction, LoginSuccessAction} from '../actions/auth.actions';
-import {catchError, map, switchMap} from 'rxjs/operators';
+import {catchError, map, switchMap, tap} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
 import {CreateToastAction, ToastActions} from '../actions/toast.actions';
 import {Severity} from './toast.effect';
+import {Router} from '@angular/router';
 
 // effects
 // see: https://medium.com/frontend-fun/angular-ngrx-a-clean-and-clear-introduction-4ed61c89c1fc
@@ -19,6 +20,7 @@ import {Severity} from './toast.effect';
 export class AuthEffects {
 
     constructor(private actions: Actions<AuthActions>,
+                private router: Router,
                 private loginControllerService: LoginControllerService) {}
 
     @Effect()
@@ -61,6 +63,8 @@ export class AuthEffects {
         // only interested in the login action
         ofType(AuthActionTypes.LOGIN_SUCCESS),
         map(action => action.payload),
+        tap(() => { this.router.navigate(['page1']); }),
+        tap(() => { console.log("navigating away..."); }),
         switchMap((bearerTokenCredential: TokenCredentials) => {
             console.log('<effect> login success ', bearerTokenCredential);
             return of(new CreateToastAction({
@@ -74,7 +78,7 @@ export class AuthEffects {
     @Effect()
     loginFailed: Observable<ToastActions> = this.actions.pipe(   //
         // only interested in the login action
-        ofType(AuthActionTypes.LOGIN_FAILED),
+        ofType(AuthActionTypes.LOGIN_FAILURE),
         map(action => action.payload),
         switchMap((error: any) => {
             console.log('<effect> login fail ', error);

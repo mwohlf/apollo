@@ -27,7 +27,7 @@ export function reducer(currentState: State = initialState, action: AuthActions)
                 password: action.payload.password
             };
         }
-        case authActions.AuthActionTypes.LOGIN_FAILED: {
+        case authActions.AuthActionTypes.LOGIN_FAILURE: {
             return {
                 ...currentState,
                 username: undefined,
